@@ -12,3 +12,7 @@ dist
 
 # Logs
 runtime.log
+
+yarn.lock
+
+.env
