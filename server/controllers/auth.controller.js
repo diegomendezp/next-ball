@@ -58,3 +58,7 @@ module.exports.valorate = (req, res, next) => {
       });
     });
 };
+
+module.exports.getProfile = (req, res, next) => {
+  res.json(req.user);
+};
