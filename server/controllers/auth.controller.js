@@ -35,3 +35,26 @@ module.exports.getUsers = (req, res, next) => {
     .sort({ points: -1 })
     .then(user => res.status(200).json(user));
 };
+
+module.exports.valorate = (req, res, next) => {
+  const {
+ drive, backhand, serve, volley, resistance 
+} = req.body;
+  User.findById({ _id: req.params.id })
+    .then((user) => {
+      user.statisticsAverage.drive.unshift(drive);
+      user.statisticsAverage.backhand.unshift(backhand);
+      user.statisticsAverage.serve.unshift(serve);
+      user.statisticsAverage.volley.unshift(volley);
+      user.statisticsAverage.resistance.unshift(resistance);
+      user.save().then(() => {
+        res.status(200).json(user);
+      });
+    })
+    .catch((e) => {
+      res.status(500).json({
+        status: 'error',
+        error: e.message,
+      });
+    });
+};
