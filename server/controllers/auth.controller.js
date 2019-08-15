@@ -29,3 +29,9 @@ module.exports.logout = (req, res, next) => {
   req.logout();
   res.status(204).json();
 };
+
+module.exports.getUsers = (req, res, next) => {
+  User.find({})
+    .sort({ points: -1 })
+    .then(user => res.status(200).json(user));
+};
