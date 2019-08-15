@@ -6,8 +6,8 @@ module.exports.setup = (passport) => {
     next(null, user);
   });
 
-  passport.deserializeUser((id, next) => {
-    User.findById(id)
+  passport.deserializeUser((user, next) => {
+    User.findById(user.id)
       .then(user => next(null, user))
       .catch(next);
   });
