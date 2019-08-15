@@ -35,7 +35,7 @@ const userSchema = new Schema(
     description: { type: String, default: '' },
     wonMatches: { type: Number, default: 0 },
     lostMatches: { type: Number, default: 0 },
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     statisticsAverage: {
       drive: [{ type: Number, default: 5 }],
       backhand: [{ type: Number, default: 5 }],
