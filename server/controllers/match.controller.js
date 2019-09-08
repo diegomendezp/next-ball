@@ -160,7 +160,6 @@ router.post('/endMatch/:matchId', (req, res) => {
     });
 });
 
-
 router.get('/record/:id', (req, res, next) => {
   const { id } = req.params;
   Match.find({
