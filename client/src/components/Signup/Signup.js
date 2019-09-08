@@ -40,7 +40,7 @@ class _SignupForm extends React.Component {
                 <label>Password</label>
                 <input value={password} type="password" onChange={e => this.setState({password:e.target.value})}/>
                 <button onClick={() => this.handleLogin()}>Signup</button>
-                <Link to="/auth/login">Log in</Link>
+                <Link to="/login">Log in</Link>
             </div>
         );
     }
