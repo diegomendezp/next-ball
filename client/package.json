@@ -1,8 +1,10 @@
 {
-  "name": "client",
+  "name": "next-ball-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.4.1",
+    "@material-ui/icons": "^4.4.1",
     "all": "^0.0.0",
     "axios": "^0.18.0",
     "react": "^16.8.3",
