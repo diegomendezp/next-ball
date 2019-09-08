@@ -107,7 +107,6 @@ router.post('/addPlayer/:playerId/:matchId', (req, res, next) => {
     },
   )
     .then((match) => {
-      console.log(match);
       res.status(200).json(match);
     })
     .catch((e) => {
@@ -119,8 +118,8 @@ router.post('/addPlayer/:playerId/:matchId', (req, res, next) => {
 });
 
 router.get('/single-match/:id', (req, res, next) => {
-  const matchId = req.params.id;
-  Match.findById(matchId)
+  const { id } = req.params;
+  Match.findById(id)
     .populate('_author')
     .then((match) => {
       res.status(200).json(match);
