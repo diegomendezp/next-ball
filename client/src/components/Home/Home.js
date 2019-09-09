@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import MatchService from '../../services/MatchService'
+import CardWrapper from '../Card'
 
 class Home extends Component {
   state = {
@@ -11,10 +12,22 @@ class Home extends Component {
     .then(matches => this.setState({...this.state, matches}))
   }
   
+  displayMatches = () => {
+    const { matches } = this.state;
+    return matches.map((match, i) => {
+      return (
+        <CardWrapper {...match}>
+
+        </CardWrapper>
+      )
+    })
+  }
   render() {
+    const { matches } = this.state;
     return (
-      <div>
-      </div>
+      <React.Fragment>
+        {matches && this.displayMatches()}
+      </React.Fragment>
     )
   }
 }

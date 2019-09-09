@@ -15,7 +15,7 @@ const matchSchema = new Schema(
       type: {
         type: String,
       },
-      coordinates: [Number],
+      coordinates: [{ type: Number }],
     },
     result: String,
     winner: { type: Schema.Types.ObjectId, ref: 'User' },
