@@ -156,4 +156,4 @@ render(){
 }
 }
 
-export const Signup = connect()(withRouter(_LoginForm));
+export const Login = connect()(withRouter(_LoginForm));
