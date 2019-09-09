@@ -1,25 +1,36 @@
+
 import React from "react";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 import { BrowserRouter as Router } from "react-router-dom";
+import reduxThunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import { login } from "./actions";
+import { login, logout } from "./actions";
 import AuthService from "./services/AuthService";
+import { loadState, saveState } from './localStorage'
+
+const persistedState = loadState();
 
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  persistedState,
+  composeWithDevTools(applyMiddleware(reduxThunk))
 );
-
 
 AuthService.currentUser().then(user => {
   store.dispatch(login(user));
-}).catch(e =>console.log("YOU HAVE TO LOGIN"));
+}).catch(e =>store.dispatch(logout()));
+
+store.subscribe(() => {
+  saveState(store.getState())
+})
+
 
 render(
   <Provider store={store}>
