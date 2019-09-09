@@ -7,6 +7,8 @@ import { Login } from "./components/Login/Login";
 import { withThemeConsumer } from "./theme";
 import { ThemeProvider } from '@material-ui/styles';
 import Navbar from "./components/Navbar/Navbar";
+import { PrivateRoute } from "./guards/PrivateRoute";
+import Home from "./components/Home/Home";
 
 class App extends Component {
   render() {
@@ -16,6 +18,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
+          <PrivateRoute exact path="/" component={Home}></PrivateRoute>
         </Switch>
       </ThemeProvider>
     );
