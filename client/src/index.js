@@ -14,6 +14,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { login, logout } from "./actions";
 import AuthService from "./services/AuthService";
 import { loadState, saveState } from './localStorage'
+import { ThemeProvider } from '@material-ui/styles';
+import { ThemeStore } from './theme';
 
 const persistedState = loadState();
 
@@ -34,9 +36,11 @@ store.subscribe(() => {
 
 render(
   <Provider store={store}>
+    <ThemeStore>
     <Router>
       <App />
     </Router>
+    </ThemeStore>
   </Provider>,
   document.getElementById("root")
 );
