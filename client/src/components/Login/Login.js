@@ -63,13 +63,11 @@ class _LoginForm extends React.Component {
       error: false,
       errorMessage: ""
     };
-
-    this.service = new AuthService()
   }
   handleLogin() {
     const { email, password } = this.state;
     const { history, dispatch } = this.props;
-    this.service
+    AuthService
       .login({ email, password })
       .then(user => {
         dispatch(login(user));

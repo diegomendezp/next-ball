@@ -14,13 +14,12 @@ class _SignupForm extends React.Component {
             password:""
         }
 
-        this.service = new AuthService()
     }
 
-    handleLogin(){
+    handleSignup(){
         const {username, password} = this.state;
         const {history, dispatch} = this.props;
-        this.service.signup({username, password})
+        AuthService.signup({username, password})
         .then( user =>{
             dispatch(login(user))
             history.push('/');
@@ -39,7 +38,7 @@ class _SignupForm extends React.Component {
                 <input value={username} onChange={e => this.setState({username:e.target.value})}/>
                 <label>Password</label>
                 <input value={password} type="password" onChange={e => this.setState({password:e.target.value})}/>
-                <button onClick={() => this.handleLogin()}>Signup</button>
+                <button onClick={() => this.handleSignup()}>Signup</button>
                 <Link to="/login">Log in</Link>
             </div>
         );
