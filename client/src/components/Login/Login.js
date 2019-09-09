@@ -5,7 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+import { Link } from 'react-router-dom';
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -14,16 +14,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import AuthService from "../../services/AuthService";
 import { login } from "../../actions";
+import LoginWrapper from "./LoginStyles";
+import AuthService from "../../services/AuthService";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      {/* <Link color="inherit" href="https://material-ui.com/">
         Next ball
-      </Link>{" "}
+      </Link>{" "} */}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -36,20 +37,12 @@ function Copyright() {
 //       backgroundColor: theme.palette.common.white,
 //     },
 //   },
-//   paper: {
-//     marginTop: theme.spacing(8),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
+//   ,
 //   avatar: {
 //     margin: theme.spacing(1),
 //     backgroundColor: theme.palette.secondary.main,
 //   },
-//   form: {
-//     width: '100%', // Fix IE 11 issue.
-//     marginTop: theme.spacing(1),
-//   },
+//  ,
 //   submit: {
 //     margin: theme.spacing(3, 0, 2),
 //   },
@@ -71,7 +64,7 @@ class _LoginForm extends React.Component {
       errorMessage: ""
     };
 
-    this.service = new AuthService();
+    this.service = new AuthService()
   }
   handleLogin() {
     const { email, password } = this.state;
@@ -103,19 +96,20 @@ class _LoginForm extends React.Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, error, errorMessage } = this.state;
 
     return (
+        <LoginWrapper>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={this.classes.paper}>
+        <div className="paper">
           <Avatar className={this.classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={this.classes.form} noValidate>
+          <form className={this.classes.form} validate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -127,7 +121,7 @@ class _LoginForm extends React.Component {
               autoComplete="email"
               autoFocus
               value={email}
-              onChange={e => this.handleChange(email, e.target.value)}
+              onChange={e => this.handleChange("email", e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -141,30 +135,30 @@ class _LoginForm extends React.Component {
               autoComplete="current-password"
               value={password}
               type="password"
-              onChange={e => this.handleChange(password, e.target.value)}
+              onChange={e => this.handleChange("password", e.target.value)}
             />
+            {error && <p className="error-message">{errorMessage}</p> }
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={this.classes.submit}
+              className="submit"
               onClick={() => this.handleLogin()}
             >
-              Sign In
+              Login
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container className="signup-link-container">
+              {/* <Grid item xs>
+                 <Link href="#" variant="body2">
+                   Forgot password?
+                 </Link>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -175,6 +169,7 @@ class _LoginForm extends React.Component {
           <Copyright />
         </Box>
       </Container>
+      </LoginWrapper>
     );
   }
 }
