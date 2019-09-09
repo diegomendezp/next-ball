@@ -1,32 +1,31 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import AuthService from '../../services/AuthService';
-import { login } from '../../actions'
-
+import React from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import AuthService from "../../services/AuthService";
+import { login } from "../../actions";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Next ball
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -57,103 +56,127 @@ function Copyright() {
 // }));
 
 class _LoginForm extends React.Component {
-//   classes = useStyles();
-classes = {}
-  constructor(){
+  //   classes = useStyles();
+  classes = {};
+  constructor() {
     super();
     this.state = {
-        username:"",
-        password:""
-    }
+      email: "",
+      password: "",
+      touch: {
+        email: false,
+        password: false
+      },
+      error: false,
+      errorMessage: ""
+    };
 
-    this.service = new AuthService()
-}
-handleLogin(){
-    const {username, password} = this.state;
-    const {history, dispatch} = this.props;
-    this.service.login({username, password})
-    .then( user =>{
-        dispatch(login(user))
-        history.push('/');
+    this.service = new AuthService();
+  }
+  handleLogin() {
+    const { email, password } = this.state;
+    const { history, dispatch } = this.props;
+    this.service
+      .login({ email, password })
+      .then(user => {
+        dispatch(login(user));
+        history.push("/");
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  }
+
+  handleError = () => {
+    this.setState({...this.state, error:true, errorMessage:"Incorrect username or password"}, ()=> {
+      setTimeout(()=> {
+        this.setState({...this.state, error:false, errorMessage:""})
+      }, 3000)
     })
-    .catch( e => {
-        console.error(e)
+  }
+
+  handleChange = (name, value) => {
+    this.setState({
+      ...this.state,
+        [name]: value
     });
-}
+  };
 
-render(){
-    const {username, password} = this.state;
+  render() {
+    const { email, password } = this.state;
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={this.classes.paper}>
-        <Avatar className={this.classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <form className={this.classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={username} 
-            onChange={e => this.setState({username:e.target.value})}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password} type="password" onChange={e => this.setState({password:e.target.value})}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={this.classes.submit}
-            onClick={() => this.handleLogin()}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={this.classes.paper}>
+          <Avatar className={this.classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <form className={this.classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={e => this.handleChange(email, e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              type="password"
+              onChange={e => this.handleChange(password, e.target.value)}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={this.classes.submit}
+              onClick={() => this.handleLogin()}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
-  )
-}
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    );
+  }
 }
 
 export const Login = connect()(withRouter(_LoginForm));
