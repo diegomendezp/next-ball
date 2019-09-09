@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import MatchService from '../../services/MatchService'
 import CardWrapper from '../Card'
+import PageWrapper from '../../pageStyles/PageWrapper'
 
 class Home extends Component {
   state = {
@@ -26,7 +27,12 @@ class Home extends Component {
     const { matches } = this.state;
     return (
       <React.Fragment>
-        {matches && this.displayMatches()}
+        <PageWrapper>
+          <div className="page-container">
+{matches && this.displayMatches()}
+          </div>
+        </PageWrapper>
+        
       </React.Fragment>
     )
   }
