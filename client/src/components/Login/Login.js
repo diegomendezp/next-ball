@@ -25,6 +25,7 @@ function Copyright() {
       {/* <Link color="inherit" href="https://material-ui.com/">
         Next ball
       </Link>{" "} */}
+      Next ball {" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>

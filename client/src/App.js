@@ -6,12 +6,13 @@ import { Switch, Route } from "react-router-dom";
 import { Login } from "./components/Login/Login";
 import { withThemeConsumer } from "./theme";
 import { ThemeProvider } from '@material-ui/styles';
+import Navbar from "./components/Navbar/Navbar";
 
 class App extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-        <button onClick={() => this.props.changeTheme()}>Change color</button>
+        <Navbar />
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />

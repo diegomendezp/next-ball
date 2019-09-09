@@ -22,9 +22,7 @@ function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
-        {/* <Link color="inherit" href="https://material-ui.com/">
-          Next ball
-        </Link>{" "} */}
+        Next ball {" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>
