@@ -44,9 +44,9 @@ class _SignupForm extends React.Component {
   }
 
   handleSignup() {
-    const { username, password } = this.state;
+    const { username, email, password } = this.state;
     const { history, dispatch } = this.props;
-    AuthService.signup({ username, password })
+    AuthService.signup({ username, password, email })
       .then(user => {
         dispatch(login(user));
         history.push("/");

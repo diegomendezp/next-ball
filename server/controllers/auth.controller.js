@@ -38,8 +38,8 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.valorate = (req, res, next) => {
   const {
- drive, backhand, serve, volley, resistance 
-} = req.body;
+    drive, backhand, serve, volley, resistance,
+  } = req.body;
   User.findById({ _id: req.params.id })
     .then((user) => {
       user.statisticsAverage.drive.unshift(drive);
