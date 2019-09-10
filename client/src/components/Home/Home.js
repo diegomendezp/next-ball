@@ -26,7 +26,9 @@ class Home extends Component {
       <React.Fragment>
         <PageWrapper>
           <div className="page-container">
-            {matches && this.displayMatches()}
+            <div className="matches-container">
+              {matches && this.displayMatches()}
+            </div>
           </div>
         </PageWrapper>
       </React.Fragment>

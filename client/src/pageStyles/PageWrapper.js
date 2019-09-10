@@ -6,6 +6,12 @@ const PageWrapper = styled.section`
     width: 95%;
     margin-top: 90px;
   }
+
+  .matches-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 `;
 
 export default PageWrapper;

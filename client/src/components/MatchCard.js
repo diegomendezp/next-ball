@@ -13,11 +13,23 @@ import { red } from "@material-ui/core/colors";
 const useStyles = makeStyles(theme => ({
   card: {
     display: "flex",
-    maxWidth: 400
+    [theme.breakpoints.down('sm')]: {
+      width: "90%",
+      margin:"0 auto"
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: "45%",
+      margin:"0"
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "30%",
+      margin:"0"
+    }
   },
   details: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    width: "50%"
   },
   content: {
     flex: "1 0 auto"
@@ -34,7 +46,8 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     width: 60,
     height: 60,
-    margin: "0 auto"
+    margin: "0 auto",
+    marginBottom: "5%"
   },
   marker: {
     height: "20px",
@@ -70,34 +83,27 @@ export default function MediaControlCard({ _author, date, hour, location }) {
             className={classes.avatar}
           />
           <Typography component="h5" variant="h5">
-            Created by {_author.username}
+            Created by: {_author.username}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
         </CardContent>
-        <div className={classes.controls}></div>
       </div>
-      <ReactMapGL
-        width={"100%"}
-        height={"auto"}
-        latitude={lat}
-        longitude={lng}
-        zoom={5}
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-        onViewportChange={viewport => {
-          const { width, height, latitude, longitude, zoom } = viewport;
-          // Optionally call `setState` and use the state to update the map.
-        }}
-      >
-        <Marker
+        <ReactMapGL
+          width={"50%"}
+          height={"auto"}
           latitude={lat}
           longitude={lng}
-          offsetLeft={-20}
-          offsetTop={-10}
-          className={classes.marker}
-        ></Marker>
-      </ReactMapGL>
+          zoom={5}
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        >
+          <Marker
+            latitude={lat}
+            longitude={lng}
+            className={classes.marker}
+          ></Marker>
+        </ReactMapGL>
     </Card>
   );
 }
