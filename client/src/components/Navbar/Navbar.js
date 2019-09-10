@@ -1,10 +1,9 @@
 import React from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -13,6 +12,7 @@ import InvertColorIcon from "@material-ui/icons/InvertColors";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { withThemeConsumer } from "../../theme";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   position: "fixed",
@@ -50,6 +50,14 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     [theme.breakpoints.up("md")]: {
       display: "none"
+    }
+  },
+  links: {
+    color: "white",
+      textDecoration: "none",
+    "&:visited": {
+      color: "white",
+      textDecoration: "none"
     }
   }
 }));
@@ -145,8 +153,8 @@ function Navbar(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color="inherit">Matches</Button>
-
+            <Button color="inherit" ><Link to="/" className={classes.links}>Matches</Link></Button>
+            <Button color="inherit" ><Link to="/users" className={classes.links}>Users</Link></Button>
             <IconButton
               aria-label="Toggle light/dark theme"
               title="Toggle light/dark theme"
