@@ -155,6 +155,7 @@ function Navbar(props) {
           <div className={classes.sectionDesktop}>
             <Button color="inherit" ><Link to="/" className={classes.links}>Matches</Link></Button>
             <Button color="inherit" ><Link to="/users" className={classes.links}>Users</Link></Button>
+            <Button color="inherit" ><Link to="/ranking" className={classes.links}>Ranking</Link></Button>
             <IconButton
               aria-label="Toggle light/dark theme"
               title="Toggle light/dark theme"
