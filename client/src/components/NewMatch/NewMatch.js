@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MapGL, { Marker, GeolocateControl } from "react-map-gl";
+import Geocoder from 'react-mapbox-gl-geocoder';
 
 function getModalStyle() {
   const top = 50;
@@ -37,6 +38,13 @@ const useStyles = makeStyles(theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2)
   },
+  marker: {
+    height: "20px",
+    width: "20px",
+    backgroundColor: "#3f51b5",
+    borderRadius: "50%",
+    display: "inline-block"
+  },
   container: {
     display: "flex",
     flexWrap: "wrap"
@@ -54,6 +62,7 @@ export default function NewMatch() {
   const [open, setOpen] = React.useState(false);
   const [hour, setHour] = React.useState("18:00");
   const [date, setDate] = React.useState(Date.now().toString());
+  const [point, setPoint] = React.useState({ longitude: -3.70325, latitude: 40.4167});
 
   const handleOpen = () => {
     setOpen(true);
@@ -62,6 +71,16 @@ export default function NewMatch() {
   const handleClose = () => {
     setOpen(false);
   };
+  const queryParams = {
+    country: "es"
+  };
+  const _onSelected = (viewport, item) => {
+    console.log(item)
+    const [ longitude, latitude ] = item.geometry.coordinates;
+    setPoint({longitude, latitude})
+  };
+
+  const { longitude, latitude } = point;
 
   return (
     <div>
@@ -104,24 +123,30 @@ export default function NewMatch() {
               type="date"
               id="date"
             />
+            <Geocoder
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+              onSelected={_onSelected}
+              hideOnSelect={true}
+              queryParams={queryParams}
+            />
             <MapGL
               width={"100%"}
               height={450}
-              latitude={40.4167}
-              longitude={-3.70325}
+              latitude={latitude}
+              longitude={longitude}
               zoom={12}
               mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
               mapStyle="mapbox://styles/mapbox/dark-v9"
             >
-              <GeolocateControl
+              {/* <GeolocateControl
                 positionOptions={{ enableHighAccuracy: true }}
                 trackUserLocation={true}
-              />
-              {/* <Marker
-                latitude={lat}
-                longitude={lng}
+              /> */}
+              <Marker
+                latitude={latitude}
+                longitude={longitude}
                 className={classes.marker}
-              ></Marker> */}
+              ></Marker>
             </MapGL>
           </form>
         </Container>
