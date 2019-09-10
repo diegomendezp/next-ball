@@ -50,14 +50,36 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up("sm")]: {
       width: 100,
-      height: 100
+      height: 90
     },
     [theme.breakpoints.up("md")]: {
       width: 120,
-      height: 120
+      height: 120,
+      margin: "0",
+      marginRight: "5%"
     },
     margin: "0 auto",
     marginBottom: "5%"
+  },
+  statsContainer :{
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "8%"
+    },
+    [theme.breakpoints.up("md")]: {
+      marginBottom: "8%",
+      alignItems: "flex-start"
+    },
+  },
+  cardSection:{
+    [theme.breakpoints.up("md")]: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center"
+    },
   }
 }));
 
@@ -67,19 +89,23 @@ export default function UserCard({ image, username, statisticsAverage, wonMatche
     <Card className={classes.card}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Avatar alt="username-icon" src={image} className={classes.avatar} />
-          <Typography component="h5" variant="h5">
-            {username}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Games Played: {wonMatches + lostMatches }
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Won: {wonMatches}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Win rate: {parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100? parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100:0}
-          </Typography>
+          <div className={classes.cardSection}>
+            <Avatar alt="username-icon" src={image} className={classes.avatar} />
+            <div className={classes.statsContainer}>
+              <Typography component="h5" variant="h5">
+                {username}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Games Played: {wonMatches + lostMatches }
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Won: {wonMatches}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Win rate: {parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100? parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100:0}%
+              </Typography>
+            </div>
+          </div>
           <RadarChart statisticsAverage={statisticsAverage}></RadarChart>
         </CardContent>
       </div>
