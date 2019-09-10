@@ -17,6 +17,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   };
 
+  static newMatch = (match) => {
+    return instance.post("/new", match).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  };
+
 }
 
 export default MatchService;
