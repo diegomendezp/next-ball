@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import { Radar } from "react-chartjs-2";
 import RadarChart from "./RadarChart";
 
 const useStyles = makeStyles(theme => ({
@@ -83,7 +82,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserCard({ image, username, statisticsAverage, wonMatches, lostMatches }) {
+export default function UserCard({ image, username, statisticsAverage, wonMatches, lostMatches, points }) {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -103,6 +102,9 @@ export default function UserCard({ image, username, statisticsAverage, wonMatche
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 Win rate: {parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100? parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100:0}%
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Points: {points}
               </Typography>
             </div>
           </div>
