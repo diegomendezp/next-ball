@@ -127,7 +127,7 @@ export default function MediaControlCard({ _author, date, hour, location }) {
         height={"auto"}
         latitude={lat}
         longitude={lng}
-        zoom={5}
+        zoom={12}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         onClick={() => handleOpen()}
       >
@@ -149,7 +149,7 @@ export default function MediaControlCard({ _author, date, hour, location }) {
               height={450}
               latitude={lat}
               longitude={lng}
-              zoom={5}
+              zoom={12}
               mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
             >
               <Marker

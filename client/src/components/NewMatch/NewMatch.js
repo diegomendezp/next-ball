@@ -87,7 +87,10 @@ export default function NewMatch() {
   };
 
   const createMatch = (e)=> {
+    const { longitude, latitude, place } = point;
     e.preventDefault();
+    MatchService.newMatch({ hour, date, lat:latitude, lng:longitude })
+    .then(() => handleClose())
   }
   const handleAbort = (e) => {
     e.preventDefault();
