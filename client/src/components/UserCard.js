@@ -61,9 +61,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserCard({ image, username, statisticsAverage }) {
+export default function UserCard({ image, username, statisticsAverage, wonMatches, lostMatches }) {
   const classes = useStyles();
-
   return (
     <Card className={classes.card}>
       <div className={classes.details}>
@@ -73,7 +72,13 @@ export default function UserCard({ image, username, statisticsAverage }) {
             {username}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            Usuario
+            Games Played: {wonMatches + lostMatches }
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            Won: {wonMatches}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            Win rate: {parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100? parseFloat((wonMatches / (wonMatches + lostMatches)).toFixed(2)) * 100:0}
           </Typography>
           <RadarChart statisticsAverage={statisticsAverage}></RadarChart>
         </CardContent>

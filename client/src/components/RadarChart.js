@@ -46,7 +46,6 @@ const getData = statisticsAverage => {
       legend: {
         display: true,
         position: "bottom",
-        labels: {}
       },
       scale: {
         ticks: {
