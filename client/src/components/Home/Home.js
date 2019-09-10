@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MatchService from "../../services/MatchService";
-import CardWrapper from "../Card";
+import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
 
 class Home extends Component {
