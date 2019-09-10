@@ -6,24 +6,38 @@ import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ReactMapGL, { Marker } from "react-map-gl";
-
 import Avatar from "@material-ui/core/Avatar";
-import { red } from "@material-ui/core/colors";
+import Modal from "@material-ui/core/Modal";
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 
+  const left = 50 
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  };
+}
 
 const useStyles = makeStyles(theme => ({
   card: {
     display: "flex",
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       width: "90%",
-      margin:"0 auto"
+      margin: "0 auto"
     },
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: "45%",
-      margin:"0"
+      margin: "0"
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       width: "30%",
-      margin:"0"
+      margin: "0"
     }
   },
   details: {
@@ -55,6 +69,17 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#3f51b5",
     borderRadius: "50%",
     display: "inline-block"
+  },
+  paper: {
+    position: "absolute",
+    width: 600,
+    [theme.breakpoints.down("sm")]: {
+      width: 300,
+    },
+    border: "2px solid #000",
+    backgroundColor: theme.palette.primary,
+    boxShadow: theme.shadows[5],
+    outline: 'none'
   }
 }));
 
@@ -72,6 +97,15 @@ export default function MediaControlCard({ _author, date, hour, location }) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
   const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Card className={classes.card}>
@@ -90,20 +124,44 @@ export default function MediaControlCard({ _author, date, hour, location }) {
           </Typography>
         </CardContent>
       </div>
-        <ReactMapGL
-          width={"50%"}
-          height={"auto"}
+      <ReactMapGL
+        width={"50%"}
+        height={"auto"}
+        latitude={lat}
+        longitude={lng}
+        zoom={5}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        onClick={() => handleOpen()}
+      >
+        <Marker
           latitude={lat}
           longitude={lng}
-          zoom={5}
-          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          className={classes.marker}
+        ></Marker>
+      </ReactMapGL>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={open}
+          onClose={handleClose}
         >
-          <Marker
-            latitude={lat}
-            longitude={lng}
-            className={classes.marker}
-          ></Marker>
-        </ReactMapGL>
+          <div style={getModalStyle()} className={classes.paper}>
+            <ReactMapGL
+              width={"100%"}
+              height={450}
+              latitude={lat}
+              longitude={lng}
+              zoom={5}
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+            >
+              <Marker
+                latitude={lat}
+                longitude={lng}
+                className={classes.marker}
+              ></Marker>
+            </ReactMapGL>
+          </div>
+        </Modal>
     </Card>
   );
 }
