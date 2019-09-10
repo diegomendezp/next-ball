@@ -7,7 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MapGL, { Marker, GeolocateControl } from "react-map-gl";
-import Geocoder from 'react-mapbox-gl-geocoder';
+import Geocoder from "react-mapbox-gl-geocoder";
+import Button from "@material-ui/core/Button";
+import MatchService from "../../services/MatchService";
 
 function getModalStyle() {
   const top = 50;
@@ -62,7 +64,11 @@ export default function NewMatch() {
   const [open, setOpen] = React.useState(false);
   const [hour, setHour] = React.useState("18:00");
   const [date, setDate] = React.useState(Date.now().toString());
-  const [point, setPoint] = React.useState({ longitude: -3.70325, latitude: 40.4167});
+  const [point, setPoint] = React.useState({
+    longitude: -3.70325,
+    latitude: 40.4167,
+    place: "Madrid"
+  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -75,12 +81,20 @@ export default function NewMatch() {
     country: "es"
   };
   const _onSelected = (viewport, item) => {
-    console.log(item)
-    const [ longitude, latitude ] = item.geometry.coordinates;
-    setPoint({longitude, latitude})
+    console.log(item);
+    const [longitude, latitude] = item.geometry.coordinates;
+    setPoint({ longitude, latitude, place: item.place_name });
   };
 
-  const { longitude, latitude } = point;
+  const createMatch = (e)=> {
+    e.preventDefault();
+  }
+  const handleAbort = (e) => {
+    e.preventDefault();
+    handleClose();
+  }
+
+  const { longitude, latitude, place } = point;
 
   return (
     <div>
@@ -123,6 +137,16 @@ export default function NewMatch() {
               type="date"
               id="date"
             />
+
+            <TextField
+              disabled
+              id="standard-disabled"
+              label="Selected address"
+              defaultValue={place}
+              value={place}
+              className={classes.textField}
+              margin="normal"
+            />
             <Geocoder
               mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
               onSelected={_onSelected}
@@ -148,6 +172,23 @@ export default function NewMatch() {
                 className={classes.marker}
               ></Marker>
             </MapGL>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={e => handleAbort(e)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={(e) => createMatch(e)}
+            >
+              Aceptar
+            </Button>
           </form>
         </Container>
       </Modal>
