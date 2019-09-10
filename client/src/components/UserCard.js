@@ -9,23 +9,24 @@ import Avatar from "@material-ui/core/Avatar";
 const useStyles = makeStyles(theme => ({
   card: {
     display: "flex",
+    flexDirection:"column",
     [theme.breakpoints.down("sm")]: {
       width: "90%",
-      margin: "0 auto"
+      margin: "0 auto 5% auto"
     },
     [theme.breakpoints.up("sm")]: {
       width: "45%",
-      margin: "0"
+      margin: "0 0 5% 0"
     },
     [theme.breakpoints.up("md")]: {
       width: "30%",
-      margin: "0"
+      margin: "0 0 2% 0"
     }
   },
   details: {
     display: "flex",
     flexDirection: "column",
-    width: "50%"
+    width: "100%"
   },
   content: {
     flex: "1 0 auto"
@@ -40,8 +41,20 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(1)
   },
   avatar: {
-    width: 60,
-    height: 60,
+    width: 150,
+    height: 150,
+    [theme.breakpoints.down("sm")]: {
+      width: 80,
+      height: 80,
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: 100,
+      height: 100,
+    },
+    [theme.breakpoints.up("md")]: {
+      width: 120,
+    height: 120,
+    },
     margin: "0 auto",
     marginBottom: "5%"
   },
@@ -61,7 +74,7 @@ export default function UserCard ({ image, username}) {
             className={classes.avatar}
           />
           <Typography component="h5" variant="h5">
-            Created by: {username}
+            {username}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             Usuario
