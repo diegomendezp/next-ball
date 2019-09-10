@@ -31,6 +31,11 @@ class AuthService {
     return instance.get("/logout").then(response => response.data)
     .catch(AuthService.errorHandler)
   };
+
+  static getUsers = () => {
+    return instance.get("/users").then(response => response.data)
+    .catch(AuthService.errorHandler)
+  };
 }
 
 export default AuthService;
