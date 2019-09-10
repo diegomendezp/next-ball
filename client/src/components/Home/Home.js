@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MatchService from "../../services/MatchService";
 import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
+import NewMatch from "../NewMatch/NewMatch";
 
 class Home extends Component {
   state = {
@@ -30,6 +31,7 @@ class Home extends Component {
               {matches && this.displayMatches()}
             </div>
           </div>
+          <NewMatch />
         </PageWrapper>
       </React.Fragment>
     );

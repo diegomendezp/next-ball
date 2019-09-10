@@ -10,7 +10,6 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -32,25 +31,7 @@ function Copyright() {
   );
 }
 
-// const useStyles = makeStyles(theme => ({
-//   '@global': {
-//     body: {
-//       backgroundColor: theme.palette.common.white,
-//     },
-//   },
-//   ,
-//   avatar: {
-//     margin: theme.spacing(1),
-//     backgroundColor: theme.palette.secondary.main,
-//   },
-//  ,
-//   submit: {
-//     margin: theme.spacing(3, 0, 2),
-//   },
-// }));
-
 class _LoginForm extends React.Component {
-  //   classes = useStyles();
   classes = {};
   constructor() {
     super();
