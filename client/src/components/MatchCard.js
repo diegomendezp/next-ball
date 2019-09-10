@@ -27,15 +27,18 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     [theme.breakpoints.down("sm")]: {
       width: "90%",
-      margin: "0 auto"
+      margin: "0 auto",
+      marginBottom: "5%"
     },
     [theme.breakpoints.up("sm")]: {
       width: "45%",
-      margin: "0"
+      margin: "0",
+      marginBottom: "5%"
     },
     [theme.breakpoints.up("md")]: {
       width: "30%",
-      margin: "0"
+      margin: "0",
+      marginBottom: "5%"
     }
   },
   details: {

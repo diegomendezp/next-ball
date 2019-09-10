@@ -145,7 +145,6 @@ export default function NewMatch() {
               disabled
               id="standard-disabled"
               label="Selected address"
-              defaultValue={place}
               value={place}
               className={classes.textField}
               margin="normal"
