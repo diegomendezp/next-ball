@@ -1,51 +1,76 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345,
-    display:"flex"
-  },
-});
+import Avatar from '@material-ui/core/Avatar';
 
-export default function CardWrapper({ _author}) {
+const useStyles = makeStyles(theme => ({
+  card: {
+    display: 'flex',
+    maxWidth: 345
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: '1 0 auto',
+  },
+  cover: {
+    width: 151,
+  },
+  controls: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    margin: '0 auto'
+  }
+}));
+
+const dateFormat = (d, month, formal = false) => {
+  let y = d.getFullYear().toString();
+  let m = month ? month : (d.getMonth() + 1).toString();
+  let date = d.getDate().toString();
+  date.length === 1 && (date = "0" + date);
+  m.length === 1 && (m = "0" + m);
+
+  return formal ? `${m}-${date}-${y}` : `${date}-${m}-${y}`;
+};
+
+export default function MediaControlCard({ _author, date, hour}) {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image={_author.image}
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+      <div className={classes.details}>
+        <CardContent className={classes.content}>
+          <Avatar alt="username-icon" src={_author.image} className={classes.avatar}/>
+          <Typography component="h5" variant="h5">
+            Created by {_author.username}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography variant="subtitle1" color="textSecondary">
+            Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
         </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
+        <div className={classes.controls}>
+          
+        </div>
+      </div>
+      <CardMedia
+        className={classes.cover}
+        image={_author.image}
+        title="Live from space album cover"
+      />
     </Card>
   );
 }
