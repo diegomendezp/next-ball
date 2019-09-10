@@ -6,6 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import MapGL, { Marker, GeolocateControl } from "react-map-gl";
 
 function getModalStyle() {
   const top = 50;
@@ -37,13 +38,13 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2)
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap"
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 200,
+    width: 200
   }
 }));
 
@@ -52,7 +53,7 @@ export default function NewMatch() {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [hour, setHour] = React.useState("18:00");
-  const [date, setDate] = React.useState("");
+  const [date, setDate] = React.useState(Date.now().toString());
 
   const handleOpen = () => {
     setOpen(true);
@@ -71,7 +72,7 @@ export default function NewMatch() {
         onClose={handleClose}
       >
         <Container style={modalStyle} className={classes.paper}>
-        <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5">
             Create match
           </Typography>
           <form validate autoComplete="off" className={classes.container}>
@@ -81,13 +82,13 @@ export default function NewMatch() {
               value={hour}
               required
               autoFocus
-              onChange={(e) => setHour(e.target.value)}
+              onChange={e => setHour(e.target.value)}
               margin="normal"
               InputLabelProps={{
-                shrink: true,
+                shrink: true
               }}
               inputProps={{
-                step: 300,
+                step: 300
               }}
               type="time"
               id="time"
@@ -98,11 +99,30 @@ export default function NewMatch() {
               value={date}
               required
               autoFocus
-              onChange={(e) => setDate(e.target.value)}
+              onChange={e => setDate(e.target.value)}
               margin="normal"
               type="date"
               id="date"
             />
+            <MapGL
+              width={"100%"}
+              height={450}
+              latitude={40.4167}
+              longitude={-3.70325}
+              zoom={12}
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+              mapStyle="mapbox://styles/mapbox/dark-v9"
+            >
+              <GeolocateControl
+                positionOptions={{ enableHighAccuracy: true }}
+                trackUserLocation={true}
+              />
+              {/* <Marker
+                latitude={lat}
+                longitude={lng}
+                className={classes.marker}
+              ></Marker> */}
+            </MapGL>
           </form>
         </Container>
       </Modal>
