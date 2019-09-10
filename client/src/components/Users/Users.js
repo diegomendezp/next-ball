@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PageWrapper from '../../pageStyles/PageWrapper';
 import { connect } from "react-redux";
 import AuthService from '../../services/AuthService';
+import UserCard from '../UserCard';
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -37,7 +38,7 @@ class Users extends Component {
     const { users }  = this.state;
     return users.map((user, i) => {
       return (
-
+        <UserCard key={i} {...user} />
       )
     })
   }
@@ -47,8 +48,10 @@ class Users extends Component {
     const { users } = this.state;
     return (
       <PageWrapper>
+        <div className="page-container">
         <div className="matches-container">
         {users && this.displayUsers()}
+        </div>
         </div>
       </PageWrapper>
     )
