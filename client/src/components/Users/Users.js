@@ -36,10 +36,13 @@ class Users extends Component {
 
   displayUsers = () => {
     const { users }  = this.state;
-    return users.map((user, i) => {
-      return (
-        <UserCard key={i} {...user} />
-      )
+    const { user } = this.props;
+    return users.map((u, i) => {
+      if(user.id !== u.id) {
+        return (
+          <UserCard key={i} {...u} />
+         )
+      }  
     })
   }
   
