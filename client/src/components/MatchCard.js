@@ -117,7 +117,7 @@ export default function MediaControlCard({ _author, date, hour, location }) {
             src={_author.image}
             className={classes.avatar}
           />
-          <Typography component="h5" variant="h5">
+          <Typography component="h6" variant="h6">
             Created by: {_author.username}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">

@@ -15,7 +15,6 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom"
 import AuthService from "../../services/AuthService";
 import { connect } from "react-redux"
-import { Container } from "@material-ui/core";
 
 const _handleLogout = (props) => {
   const {dispatch} = props;
@@ -153,7 +152,7 @@ function Navbar(props) {
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
-        <Container>
+        
         <Toolbar>
           {/* <IconButton
             edge="start"
@@ -202,7 +201,6 @@ function Navbar(props) {
             </IconButton>
           </div>
         </Toolbar>
-        </Container>
       </AppBar>
       {renderMobileMenu}
       {renderMenu(props)}
