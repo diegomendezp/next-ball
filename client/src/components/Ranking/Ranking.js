@@ -3,6 +3,7 @@ import PageWrapper from '../../pageStyles/PageWrapper'
 import RankingTable from './RankingTable'
 import AuthService from '../../services/AuthService';
 import { connect } from "react-redux"
+import { Container } from '@material-ui/core';
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -37,9 +38,9 @@ class Ranking extends Component {
     const { users } = this.state;
     return (
       <PageWrapper>
-        <div className="page-container">
+        <Container className="page-container">
           { users && <RankingTable users={users}/>}
-        </div>
+        </Container>
       </PageWrapper>
     )
   }

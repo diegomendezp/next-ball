@@ -3,6 +3,7 @@ import MatchService from "../../services/MatchService";
 import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
 import NewMatch from "../NewMatch/NewMatch";
+import { Container } from "@material-ui/core";
 
 class Home extends Component {
   state = {
@@ -26,11 +27,11 @@ class Home extends Component {
     return (
       <React.Fragment>
         <PageWrapper>
-          <div className="page-container">
+          <Container className="page-container">
             <div className="matches-container">
               {matches && this.displayMatches()}
             </div>
-          </div>
+          </Container>
           <NewMatch />
         </PageWrapper>
       </React.Fragment>

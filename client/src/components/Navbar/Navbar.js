@@ -13,6 +13,20 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { withThemeConsumer } from "../../theme";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom"
+import AuthService from "../../services/AuthService";
+import { connect } from "react-redux"
+import { Container } from "@material-ui/core";
+
+const _handleLogout = (props) => {
+  const {dispatch} = props;
+      AuthService.logout()
+      .then(() =>{
+         dispatch({ type: 'LOGOUT' })
+      })
+      .catch( e => {
+          console.error(e)
+      });
+}
 
 const useStyles = makeStyles(theme => ({
   position: "fixed",
@@ -88,7 +102,7 @@ function Navbar(props) {
   }
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (
+  const renderMenu = (props) =>(
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -99,7 +113,7 @@ function Navbar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} onClick={() => _handleLogout(props)}>Logout</MenuItem>
     </Menu>
   );
 
@@ -139,15 +153,16 @@ function Navbar(props) {
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
+        <Container>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap>
             Next ball
           </Typography>
@@ -187,11 +202,12 @@ function Navbar(props) {
             </IconButton>
           </div>
         </Toolbar>
+        </Container>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      {renderMenu(props)}
     </div>
   );
 }
 
-export default withThemeConsumer(Navbar);
+export default connect()(withThemeConsumer(Navbar));
