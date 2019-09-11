@@ -4,7 +4,13 @@ import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
 import NewMatch from "../NewMatch/NewMatch";
 import { Container } from "@material-ui/core";
+import { withStyles} from "@material-ui/core/styles";
 
+const StyledContainer = withStyles(theme => ({
+  root: {
+    backgroundColor:  theme.palette.primary
+  }
+}))(Container);
 class Home extends Component {
   state = {
     matches: null
@@ -27,11 +33,11 @@ class Home extends Component {
     return (
       <React.Fragment>
         <PageWrapper>
-          <Container className="page-container">
+          <StyledContainer className="page-container">
             <div className="matches-container">
               {matches && this.displayMatches()}
             </div>
-          </Container>
+          </StyledContainer>
           <NewMatch />
         </PageWrapper>
       </React.Fragment>

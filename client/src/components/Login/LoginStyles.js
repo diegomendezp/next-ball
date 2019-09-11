@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import bg from "./loginbg.jpg"
 
 const LoginWrapper = styled.section`
   width: 100%;
@@ -6,6 +7,7 @@ const LoginWrapper = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* background-image: url(${bg}); */
 
   form {
     width: 100%;
