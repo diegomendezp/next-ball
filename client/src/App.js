@@ -11,7 +11,7 @@ import { PrivateRoute } from "./guards/PrivateRoute";
 import Home from "./components/Home/Home";
 import Users from "./components/Users/Users";
 import Ranking from "./components/Ranking/Ranking";
-import Profile from "./components/Profile";
+import Profile from "./components/Profile/Profile";
 
 class App extends Component {
   render() {
