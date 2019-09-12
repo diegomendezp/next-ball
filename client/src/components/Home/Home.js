@@ -7,6 +7,17 @@ import { Container, Typography } from "@material-ui/core";
 import { withStyles} from "@material-ui/core/styles";
 import { ThemeProvider } from '@material-ui/styles';
 import { withThemeConsumer } from "../../theme";
+import { connect } from "react-redux"
+
+const mapStateToProps = (state, ownProps) => {
+  return state && state.api
+    ? {
+        api: state.api.data,
+        user: state.auth.user
+      }
+    : "";
+};
+
 const StyledContainer = withStyles(theme => ({
   root: {
     backgroundColor:  theme.palette.primary
@@ -19,9 +30,18 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    MatchService.getMatches().then(matches =>
-      this.setState({ ...this.state, matches })
-    );
+    const { api, dispatch, user } = this.props;
+
+    if (api && api.data && api.data.matches) {
+      this.setState({
+        ...this.state,
+        matches: api.data.matches
+      });
+    } else {
+      MatchService.getMatches().then(matches =>
+        this.setState({ ...this.state, matches })
+      );
+    }
   }
 
   displayMatches = () => {
@@ -51,4 +71,4 @@ class Home extends Component {
   }
 }
 
-export default withThemeConsumer(Home);
+export default connect(withThemeConsumer(Home));
