@@ -30,7 +30,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const { api, dispatch, user } = this.props;
+    const { api } = this.props;
 
     if (api && api.data && api.data.matches) {
       this.setState({
@@ -71,4 +71,4 @@ class Home extends Component {
   }
 }
 
-export default connect(withThemeConsumer(Home));
+export default connect(mapStateToProps)(withThemeConsumer(Home));
