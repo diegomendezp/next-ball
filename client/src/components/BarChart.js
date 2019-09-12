@@ -3,59 +3,55 @@ import { Bar } from "react-chartjs-2";
 
 const getData = (matches, user) => {
   return {
-    data: {
-      labels: [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre"
-      ],
-      datasets: [
+    labels: [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    datasets: [
+      {
+        data: [
+          showPlayedGames(matches, user, 0),
+          showPlayedGames(matches, user, 1),
+          showPlayedGames(matches, user, 2),
+          showPlayedGames(matches, user, 3),
+          showPlayedGames(matches, user, 4),
+          showPlayedGames(matches, user, 5),
+          showPlayedGames(matches, user, 6),
+          showPlayedGames(matches, user, 7),
+          showPlayedGames(matches, user, 8),
+          showPlayedGames(matches, user, 9),
+          showPlayedGames(matches, user, 10),
+          showPlayedGames(matches, user, 11)
+        ],
+        label: "Partidos Jugados",
+        borderColor: "#3e95cd",
+        backgroundColor: "#3e95cd"
+      }
+    ],
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      yAxes: [
         {
-          data: [
-            showPlayedGames(matches, user, 0),
-            showPlayedGames(matches, user, 1),
-            showPlayedGames(matches, user, 2),
-            showPlayedGames(matches, user, 3),
-            showPlayedGames(matches, user, 4),
-            showPlayedGames(matches, user, 5),
-            showPlayedGames(matches, user, 6),
-            showPlayedGames(matches, user, 7),
-            showPlayedGames(matches, user, 8),
-            showPlayedGames(matches, user, 9),
-            showPlayedGames(matches, user, 10),
-            showPlayedGames(matches, user, 11)
-          ],
-          label: "Partidos Jugados",
-          borderColor: "#3e95cd",
-          backgroundColor: "#3e95cd"
+          display: false,
+          ticks: {
+            suggestedMin: 0
+          }
         }
       ]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            display: false,
-            ticks: {
-              suggestedMin: 0
-            }
-          }
-        ]
-      },
-      title: {
-        display: true
-      }
+    title: {
+      display: true
     }
   };
 };
@@ -89,7 +85,7 @@ const options = {
 export default function BarChart({ matches, user }) {
   return (
     <div className="chart-container">
-      <Radar data={getData(matches, user)} legend={options} />
+      {user && <Bar data={getData(matches, user)} legend={options} />}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import { withThemeConsumer } from '../../theme';
 import { ThemeProvider } from "@material-ui/styles";
 import Record from './Record';
+import Statistics from './Statistics';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +82,7 @@ function ProfileTabs() {
         My matches
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Statistics
+        <Statistics />
       </TabPanel>
     </div>
   );

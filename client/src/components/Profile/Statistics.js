@@ -9,7 +9,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { withThemeConsumer } from "../../theme";
 import { connect } from 'react-redux'
 import BarChart from "../BarChart";
-import { ThemeProvider } from "@material-ui/styles";
+
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -29,11 +29,14 @@ class Statistics extends Component {
 
   componentDidMount() {
     const { api, dispatch, user } = this.props;
-
-    if (api && api.data && api.data.matches) {
+    if (user) {
       this.setState({
         ...this.state,
         user
+      }, () => {
+        MatchService.getMatches()
+        .then(matches => this.setState({ ...this.state, matches }))
+        .catch(e => "Matches api error");
       });
     } else {
       MatchService.getMatches()
@@ -56,9 +59,7 @@ class Statistics extends Component {
           }}
         >
           <PageWrapper>
-            <div className="matches-container">
-              {matches && <BarChart matches={matches} user={user}>}
-            </div>
+              {matches && user && <BarChart matches={matches} user={user} />}
           </PageWrapper>
         </Typography>
       </ThemeProvider>
