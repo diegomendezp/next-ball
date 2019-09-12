@@ -10,6 +10,7 @@ import MapGL, { Marker, GeolocateControl } from "react-map-gl";
 import Geocoder from "react-mapbox-gl-geocoder";
 import Button from "@material-ui/core/Button";
 import MatchService from "../../services/MatchService";
+import { wsConn } from "../..";
 
 function getModalStyle() {
   const top = 50;
@@ -90,7 +91,10 @@ export default function NewMatch() {
     const { longitude, latitude, place } = point;
     e.preventDefault();
     MatchService.newMatch({ hour, date, lat:latitude, lng:longitude })
-    .then(() => handleClose())
+    .then(() => {
+      wsConn.sendMatch()
+      handleClose()
+    })
   }
   const handleAbort = (e) => {
     e.preventDefault();

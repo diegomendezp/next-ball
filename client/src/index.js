@@ -16,6 +16,7 @@ import AuthService from "./services/AuthService";
 import { loadState, saveState } from './localStorage'
 import { ThemeProvider } from '@material-ui/styles';
 import { ThemeStore } from './theme';
+import { WebsocketConnection } from "./websockets";
 
 const persistedState = loadState();
 
@@ -33,6 +34,7 @@ store.subscribe(() => {
   saveState(store.getState())
 })
 
+export const wsConn = new WebsocketConnection(store);
 
 render(
   <Provider store={store}>
