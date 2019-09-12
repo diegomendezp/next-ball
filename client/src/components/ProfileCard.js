@@ -17,10 +17,10 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up("sm")]: {
       width: "45%",
-      margin: "0 0 5% 0"
+      margin: "0 auto 5% auto"
     },
     [theme.breakpoints.up("md")]: {
-      width: "30%",
+      width: "40%",
       margin: "0 0 2% 0"
     }
   },
@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserCard({ image, username, statisticsAverage, wonMatches, lostMatches, points }) {
+export default function ProfileCard({ image, username, statisticsAverage, wonMatches, lostMatches, points }) {
   const classes = useStyles();
   return (
     <Card className={classes.card}>

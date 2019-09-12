@@ -43,10 +43,16 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-    width: '100%',
     backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.up("md")]: {
+      width: "55%",
+      margin: "0 0 2% 0"
+    }
   },
+  panel: {
+    paddingLeft: 0,
+    paddingRight: 0
+  }
 }));
 
 function ProfileTabs() {
@@ -75,7 +81,7 @@ function ProfileTabs() {
 
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={0} className={classes.panel}>
       <Record  />
       </TabPanel>
       <TabPanel value={value} index={1}>

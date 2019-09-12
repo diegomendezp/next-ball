@@ -27,6 +27,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   } 
 
+  static getMyMatches = () => {
+    return instance.get(`/my-matches`).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  } 
+
 }
 
 export default MatchService;

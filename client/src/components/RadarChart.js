@@ -66,6 +66,13 @@ const options = {
     display: true,
     position: "bottom",
     labels: {}
+  },
+  scale: {
+    ticks: {
+      display: true,
+      max: 10,
+      min: 0
+    }
   }
 };
 export default function RadarChart({ statisticsAverage }) {

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import MatchService from "../../services/MatchService";
 import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
-import NewMatch from "../NewMatch/NewMatch";
 import { Container, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -56,7 +55,6 @@ class Record extends Component {
                 No results found
               </Typography>}
             </div>
-            <NewMatch />
           </PageWrapper>
         </Typography>
       </ThemeProvider>
