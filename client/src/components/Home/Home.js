@@ -3,9 +3,10 @@ import MatchService from "../../services/MatchService";
 import CardWrapper from "../MatchCard";
 import PageWrapper from "../../pageStyles/PageWrapper";
 import NewMatch from "../NewMatch/NewMatch";
-import { Container } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { withStyles} from "@material-ui/core/styles";
-
+import { ThemeProvider } from '@material-ui/styles';
+import { withThemeConsumer } from "../../theme";
 const StyledContainer = withStyles(theme => ({
   root: {
     backgroundColor:  theme.palette.primary
@@ -31,18 +32,22 @@ class Home extends Component {
   render() {
     const { matches } = this.state;
     return (
-      <React.Fragment>
+      <ThemeProvider theme={this.props.theme}>
+        <Typography component="div" style={{ minHeight: '100vh', backgroundColor: this.props.theme.palette.background.paper }}>
         <PageWrapper>
           <StyledContainer className="page-container">
+          
+ 
             <div className="matches-container">
               {matches && this.displayMatches()}
             </div>
           </StyledContainer>
           <NewMatch />
         </PageWrapper>
-      </React.Fragment>
+        </Typography>
+      </ThemeProvider>
     );
   }
 }
 
-export default Home;
+export default withThemeConsumer(Home);
