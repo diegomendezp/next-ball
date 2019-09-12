@@ -17,6 +17,8 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import AuthService from "../../services/AuthService";
 import SignupWrapper from "./SignupStyles";
+import { ThemeProvider } from "@material-ui/styles";
+import { withThemeConsumer } from "../../theme";
 
 function Copyright() {
     return (
@@ -66,6 +68,14 @@ class _SignupForm extends React.Component {
   render() {
     const { username, email, password, error, errorMessage } = this.state;
     return (
+      <ThemeProvider theme={this.props.theme}>
+      <Typography
+        component="div"
+        style={{
+          minHeight: "100vh",
+          backgroundColor: this.props.theme.palette.background.paper
+        }}
+      >
     <SignupWrapper>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -150,8 +160,10 @@ class _SignupForm extends React.Component {
         </Box>
       </Container>
       </SignupWrapper>
+      </Typography>
+      </ThemeProvider>
     );
   }
 }
 
-export const Signup = connect()(withRouter(_SignupForm));
+export const Signup = withThemeConsumer(connect()(withRouter(_SignupForm)));
