@@ -3,7 +3,9 @@ import PageWrapper from '../../pageStyles/PageWrapper'
 import RankingTable from './RankingTable'
 import AuthService from '../../services/AuthService';
 import { connect } from "react-redux"
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
+import { ThemeProvider } from "@material-ui/styles";
+import { withThemeConsumer } from "../../theme";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -37,13 +39,23 @@ class Ranking extends Component {
   render() {
     const { users } = this.state;
     return (
+      <ThemeProvider theme={this.props.theme}>
+        <Typography
+          component="div"
+          style={{
+            minHeight: "100vh",
+            backgroundColor: this.props.theme.palette.background.paper
+          }}
+        >
       <PageWrapper>
         <Container className="page-container">
           { users && <RankingTable users={users}/>}
         </Container>
       </PageWrapper>
+      </Typography>
+      </ThemeProvider>
     )
   }
 }
 
-export default connect(mapStateToProps)(Ranking)
+export default withThemeConsumer(connect(mapStateToProps)(Ranking))
