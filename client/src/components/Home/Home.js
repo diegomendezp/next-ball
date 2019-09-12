@@ -12,6 +12,7 @@ const StyledContainer = withStyles(theme => ({
     backgroundColor:  theme.palette.primary
   }
 }))(Container);
+
 class Home extends Component {
   state = {
     matches: null
