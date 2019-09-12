@@ -22,6 +22,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   };
 
+  static getRecord = (id) => {
+    return instance.get(`/record/${id}`).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  } 
+
 }
 
 export default MatchService;
