@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     : "";
 };
 
-class Record extends Component {
+class MyMatches extends Component {
   state = {
     matches: null
   };
@@ -24,7 +24,7 @@ class Record extends Component {
   componentDidMount() {
     const { user } = this.props;
     if (user) {
-      MatchService.getRecord(user.id).then(matches =>
+      MatchService.getMyMatches().then(matches =>
         this.setState({ ...this.state, matches })
       );
     }
@@ -62,4 +62,4 @@ class Record extends Component {
   }
 }
 
-export default withThemeConsumer(connect(mapStateToProps)(Record));
+export default withThemeConsumer(connect(mapStateToProps)(MyMatches));

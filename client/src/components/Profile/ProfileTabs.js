@@ -10,6 +10,7 @@ import { withThemeConsumer } from '../../theme';
 import { ThemeProvider } from "@material-ui/styles";
 import Record from './Record';
 import Statistics from './Statistics';
+import MyMatches from './MyMatches';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -85,7 +86,7 @@ function ProfileTabs() {
       <Record  />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        My matches
+        <MyMatches />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Statistics />
