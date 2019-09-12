@@ -13,11 +13,12 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { login } from "../../actions";
+import { login, getMatches } from "../../actions";
 import LoginWrapper from "./LoginStyles";
 import AuthService from "../../services/AuthService";
 import { ThemeProvider } from "@material-ui/styles";
 import { withThemeConsumer } from "../../theme";
+import MatchService from "../../services/MatchService";
 
 function Copyright() {
   return (
@@ -55,7 +56,11 @@ class _LoginForm extends React.Component {
       .login({ email, password })
       .then(user => {
         dispatch(login(user));
-        history.push("/");
+        MatchService.getMatches().then(matches => {
+          dispatch(getMatches(matches));
+          history.push("/");
+        });
+        
       })
       .catch(e => {
         console.error(e);

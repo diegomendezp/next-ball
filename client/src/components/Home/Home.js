@@ -8,6 +8,7 @@ import { withStyles} from "@material-ui/core/styles";
 import { ThemeProvider } from '@material-ui/styles';
 import { withThemeConsumer } from "../../theme";
 import { connect } from "react-redux"
+import { getMatches } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -24,43 +25,25 @@ const StyledContainer = withStyles(theme => ({
   }
 }))(Container);
 
-class Home extends Component {
-  state = {
-    matches: null
-  };
-
-  componentDidMount() {
-    const { api } = this.props;
-
-    if (api && api.data && api.data.matches) {
-      this.setState({
-        ...this.state,
-        matches: api.data.matches
-      });
-    } else {
-      MatchService.getMatches().then(matches =>
-        this.setState({ ...this.state, matches })
-      );
+const displayMatches = (matches, user) => {
+  return matches.map((match, i) => {
+    if(user && user.id !== match._author.id){
+      return <CardWrapper {...match}></CardWrapper>
     }
-  }
+    
+  });
+};
 
-  displayMatches = () => {
-    const { matches } = this.state;
-    return matches.map((match, i) => {
-      return <CardWrapper {...match}></CardWrapper>;
-    });
-  };
-  render() {
-    const { matches } = this.state;
+function Home ({api, user, theme}) {
+    const { matches } = api ? api : null;
     return (
-      <ThemeProvider theme={this.props.theme}>
-        <Typography component="div" style={{ minHeight: '100vh', backgroundColor: this.props.theme.palette.background.paper }}>
+      <ThemeProvider theme={theme}>
+        <Typography component="div" style={{ minHeight: '100vh', backgroundColor: theme.palette.background.paper }}>
         <PageWrapper>
           <StyledContainer className="page-container">
-          
- 
+   
             <div className="matches-container">
-              {matches && this.displayMatches()}
+              {matches && displayMatches(matches, user)}
             </div>
           </StyledContainer>
           <NewMatch />
@@ -68,7 +51,7 @@ class Home extends Component {
         </Typography>
       </ThemeProvider>
     );
-  }
+  
 }
 
-export default connect(mapStateToProps)(withThemeConsumer(Home));
+export default withThemeConsumer(connect(mapStateToProps)(Home));
