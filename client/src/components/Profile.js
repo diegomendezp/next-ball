@@ -1,10 +1,11 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { Container } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import PageWrapper from "../pageStyles/PageWrapper";
 import UserCard from "./UserCard";
-
+import { ThemeProvider } from "@material-ui/styles";
+import { withThemeConsumer } from "../theme";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -15,17 +16,24 @@ const mapStateToProps = (state, ownProps) => {
     : "";
 };
 
-
 function Profile(props) {
-
-
   return (
-    <PageWrapper>
-        <Container className="page-container">
-         <UserCard {...props.user} />
+    <ThemeProvider theme={props.theme}>
+      <Typography
+        component="div"
+        style={{
+          minHeight: "100vh",
+          backgroundColor: props.theme.palette.background.paper
+        }}
+      >
+        <PageWrapper>
+          <Container className="page-container">
+            <UserCard {...props.user} />
           </Container>
-    </PageWrapper>
+        </PageWrapper>
+      </Typography>
+    </ThemeProvider>
   );
 }
 
-export default connect(mapStateToProps)(Profile);
+export default withThemeConsumer(connect(mapStateToProps)(Profile));

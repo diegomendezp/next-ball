@@ -16,6 +16,8 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import LoginWrapper from "./LoginStyles";
 import AuthService from "../../services/AuthService";
+import { ThemeProvider } from "@material-ui/styles";
+import { withThemeConsumer } from "../../theme";
 
 function Copyright() {
   return (
@@ -79,6 +81,14 @@ class _LoginForm extends React.Component {
     const { email, password, error, errorMessage } = this.state;
 
     return (
+      <ThemeProvider theme={this.props.theme}>
+      <Typography
+        component="div"
+        style={{
+          minHeight: "100vh",
+          backgroundColor: this.props.theme.palette.background.paper
+        }}
+      >
         <LoginWrapper>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -150,8 +160,10 @@ class _LoginForm extends React.Component {
         </Box>
       </Container>
       </LoginWrapper>
+      </Typography>
+      </ThemeProvider>
     );
   }
 }
 
-export const Login = connect()(withRouter(_LoginForm));
+export const Login = withThemeConsumer(connect()(withRouter(_LoginForm)));
