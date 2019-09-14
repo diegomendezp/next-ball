@@ -13,6 +13,7 @@ import Home from "./components/Home/Home";
 import Users from "./components/Users/Users";
 import Ranking from "./components/Ranking/Ranking";
 import Profile from "./components/Profile/Profile";
+import { SnackbarProvider } from 'notistack';
 
 class App extends Component {
   componentDidMount() {
@@ -25,6 +26,7 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <SnackbarProvider>
         <Navbar />
         <Switch>
           <Route exact path="/login" component={Login} />
@@ -42,6 +44,7 @@ class App extends Component {
             component={Profile}
           ></PrivateRoute>
         </Switch>
+        </SnackbarProvider>
       </ThemeProvider>
     );
   }
