@@ -28,6 +28,9 @@ function App(props) {
           vertical: "bottom",
           horizontal: "left"
         }}
+        iconVariant={{
+          info: '🎾',
+      }}
       >
         <Navbar />
         <Switch>
