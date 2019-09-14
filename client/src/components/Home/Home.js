@@ -50,8 +50,11 @@ const getNotification = (notifications, enqueueSnackbar, closeSnackbar, user, di
         <React.Fragment>
           <Button
             onClick={() => {
-              wsConn.sendChallange(user, otherPlayerId, matchId, "success")
-              closeSnackbar(key);
+              MatchService.addPlayer(otherPlayerId, matchId).then(() => {
+                wsConn.sendChallange(user, otherPlayerId, matchId, "success")
+                wsConn.sendMatch()
+                closeSnackbar(key);
+              })
             }}
           >
             {"Accept"}

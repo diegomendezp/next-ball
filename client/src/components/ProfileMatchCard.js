@@ -94,7 +94,11 @@ const dateFormat = (d, month, formal = false) => {
   return formal ? `${m}-${date}-${y}` : `${date}-${m}-${y}`;
 };
 
-export default function ProfileMatchCard({ _author, date, hour, location, }) {
+const getOponent = (players) => {
+  return players.map((player, i) => i===0 ? `${player.username} –` : `${player.username}`)
+}
+
+export default function ProfileMatchCard({ _author, date, hour, location, players}) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
   const theme = useTheme();
@@ -123,8 +127,9 @@ export default function ProfileMatchCard({ _author, date, hour, location, }) {
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
+     
           <Typography variant="subtitle1" color="textSecondary">
-            Oponent:
+            Oponents: {getOponent(players)}
           </Typography>
         </CardContent>
       </div>

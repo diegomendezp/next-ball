@@ -32,6 +32,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   } 
 
+  static addPlayer = (playerId, matchId) => {
+    return instance.post(`/addPlayer/${playerId}/${matchId}`, {}).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  }
+
 }
 
 export default MatchService;

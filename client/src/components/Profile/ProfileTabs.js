@@ -52,7 +52,9 @@ const useStyles = makeStyles(theme => ({
   },
   panel: {
     paddingLeft: 0,
-    paddingRight: 0
+    paddingRight: 0,
+    overflowY:"scroll",
+    maxHeight: "80vh"
   }
 }));
 

@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     minHeight: "500px",
+    maxHeight: "500px",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0 auto 5% auto"
