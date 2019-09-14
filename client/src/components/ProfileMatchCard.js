@@ -24,7 +24,9 @@ function getModalStyle() {
   return {
     top: `${top}%`,
     left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
+    transform: `translate(-${top}%, -${left}%)`,
+    borderRadius:"2px",
+    outline:"none"
   };
 }
 
@@ -83,10 +85,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       width: 300
     },
-    border: "2px solid #000",
+    border: "1px solid #000",
     backgroundColor: theme.palette.primary,
     boxShadow: theme.shadows[5],
-    outline: "none"
+    outline: "none",
+    borderRadius:"2px"
   },
   buttonsContainer: {
     display: "flex",
@@ -102,10 +105,11 @@ const useStyles = makeStyles(theme => ({
     },
     height: "auto",
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    border: "1px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    overflowY: "scroll"
+    overflowY: "scroll",
+    borderRadius:"2px"
   },
   fab: {
     position: "absolute",
