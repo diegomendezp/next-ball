@@ -9,6 +9,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
 import MatchService from "../services/MatchService";
 import { wsConn } from "..";
+import Select from "@material-ui/core/Select";
+import Container from "@material-ui/core/Container";
+import MenuItem from '@material-ui/core/MenuItem';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -88,6 +91,44 @@ const useStyles = makeStyles(theme => ({
   buttonsContainer: {
     display: "flex",
     marginTop: "5%"
+  },
+  paper: {
+    position: "absolute",
+    width: 600,
+    height: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: 300,
+      height: "500px"
+    },
+    height: "auto",
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    overflowY: "scroll"
+  },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
+  },
+  marker: {
+    height: "20px",
+    width: "20px",
+    backgroundColor: "#3f51b5",
+    borderRadius: "50%",
+    display: "inline-block"
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200
+  },
+  select: {
+    margin: "5% 0"
+  },
+  cancelButton: {
+    marginRight: "5%"
   }
 }));
 
@@ -120,7 +161,10 @@ export default function ProfileMatchCard({
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
   const theme = useTheme();
+  const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [winner, setWinner] = React.useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -130,9 +174,22 @@ export default function ProfileMatchCard({
     setOpen(false);
   };
 
-  const handleDeletAux = (id) => {
-    handleDelete(id)
-  } 
+  const handleOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  const handleAbort = e => {
+    e.preventDefault();
+    handleClose2();
+  };
+
+  const handleDeletAux = id => {
+    handleDelete(id);
+  };
 
   return (
     <Card className={classes.card}>
@@ -155,10 +212,7 @@ export default function ProfileMatchCard({
           </Typography>
           {endMatch && (
             <div className={classes.buttonsContainer}>
-              <Button
-                className={classes.button}
-                onClick={e => console.log("Click")}
-              >
+              <Button className={classes.button} onClick={e => handleOpen2()}>
                 Finish Match
               </Button>
               <Button
@@ -168,6 +222,59 @@ export default function ProfileMatchCard({
                 Delete Match
               </Button>
             </div>
+          )}
+          {endMatch && players.length > 1 && (
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={open2}
+              onClose={handleClose2}
+            >
+              <Container style={modalStyle} className={classes.paper}>
+                <Typography component="h2" variant="h5">
+                  Select Match Winner
+                </Typography>
+                <form validate autoComplete="off" className={classes.container}>
+                  <div className={classes.select}>
+                    <Select
+                      onChange={e => setWinner(e.target.value)}
+                      label="Match winner: "
+                      name="Winner"
+                      inputProps={{
+                        name: "winner",
+                        id: "winner",
+                        'aria-label': 'age'
+                      }}
+
+                      value={winner}
+                    >
+                      <MenuItem value={players[0].username}>
+                        {players[0].username}
+                      </MenuItem>
+                      <MenuItem value={players[1].username}>
+                        {players[1].username}
+                      </MenuItem>
+                    </Select>
+                  </div>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.cancelButton}
+                    onClick={e => handleAbort(e)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.cancelButton}
+                    onClick={e => console.log("Modal")}
+                  >
+                    Aceptar
+                  </Button>
+                </form>
+              </Container>
+            </Modal>
           )}
         </CardContent>
       </div>

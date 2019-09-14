@@ -187,7 +187,7 @@ export default function NewMatch() {
               className={classes.button}
               onClick={e => handleAbort(e)}
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               variant="contained"
@@ -195,7 +195,7 @@ export default function NewMatch() {
               className={classes.button}
               onClick={(e) => createMatch(e)}
             >
-              Aceptar
+              Accept
             </Button>
           </form>
         </Container>
