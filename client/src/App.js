@@ -13,7 +13,7 @@ import Home from "./components/Home/Home";
 import Users from "./components/Users/Users";
 import Ranking from "./components/Ranking/Ranking";
 import Profile from "./components/Profile/Profile";
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from "notistack";
 
 class App extends Component {
   componentDidMount() {
@@ -26,24 +26,24 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-        <SnackbarProvider>
-        <Navbar />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <PrivateRoute exact path="/" component={Home}></PrivateRoute>
-          <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
-          <PrivateRoute
-            exact
-            path="/ranking"
-            component={Ranking}
-          ></PrivateRoute>
-          <PrivateRoute
-            exact
-            path="/profile"
-            component={Profile}
-          ></PrivateRoute>
-        </Switch>
+        <SnackbarProvider maxSnack={5} dense preventDuplicate>
+          <Navbar />
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <PrivateRoute exact path="/" component={Home}></PrivateRoute>
+            <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
+            <PrivateRoute
+              exact
+              path="/ranking"
+              component={Ranking}
+            ></PrivateRoute>
+            <PrivateRoute
+              exact
+              path="/profile"
+              component={Profile}
+            ></PrivateRoute>
+          </Switch>
         </SnackbarProvider>
       </ThemeProvider>
     );

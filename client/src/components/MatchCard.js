@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
+import { Button } from "@material-ui/core";
+import { wsConn } from "..";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -94,7 +96,7 @@ const dateFormat = (d, month, formal = false) => {
   return formal ? `${m}-${date}-${y}` : `${date}-${m}-${y}`;
 };
 
-export default function MediaControlCard({ _author, date, hour, location }) {
+export default function MediaControlCard({ _author, date, hour, location, id, user }) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
   const theme = useTheme();
@@ -107,6 +109,10 @@ export default function MediaControlCard({ _author, date, hour, location }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const challenge = (player, otherPlayer, match) => {
+    wsConn.sendChallange(player, otherPlayer.id, match, "challenge")
+  }
 
   return (
     <Card className={classes.card}>
@@ -123,6 +129,7 @@ export default function MediaControlCard({ _author, date, hour, location }) {
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
+          <Button onClick={e => challenge(user, _author, id)}>Challenge</Button>
         </CardContent>
       </div>
       <ReactMapGL

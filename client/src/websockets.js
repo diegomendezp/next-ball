@@ -11,13 +11,36 @@ export class WebsocketConnection {
         this.store.dispatch(getMatches(matches));
       });
     });
-    // this.socket.on("matches", data => {
-    //   // Actually push the message when arrives
-    //   this.sessionService.matches = data;
-    // });
+
+    
+    
+  }
+
+  activateNotifications(user){
+    this.socket.on(`${user.id}`, data => {
+      if (data.type == "challenge") {
+        console.log(data);
+      }else if(data.type == "success"){
+      } else if (data.type =="error"){
+      } else {
+      }
+    });
   }
 
   sendMatch() {
     this.socket.emit("new-match");
+  }
+
+  sendChallange( player, otherPlayerId, matchId, type) {
+    const { id, username, league } = player;
+    console.log(`Sending notify to -> ${otherPlayerId}`);
+    this.socket.emit("notify", {
+      type,
+      otherPlayerId,
+      id,
+      matchId,
+      username,
+      league
+    });
   }
 }

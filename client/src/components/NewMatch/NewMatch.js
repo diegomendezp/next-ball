@@ -82,7 +82,6 @@ export default function NewMatch() {
     country: "es"
   };
   const _onSelected = (viewport, item) => {
-    console.log(item);
     const [longitude, latitude] = item.geometry.coordinates;
     setPoint({ longitude, latitude, place: item.place_name });
   };

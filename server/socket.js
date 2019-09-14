@@ -11,6 +11,12 @@ const socketServer = (io) => {
     socket.on('new-match', () => {
       socket.broadcast.emit('new-match');
     });
+
+    socket.on('notify', (data) => {
+      socket.broadcast.emit(data.otherPlayerId, {
+        otherPlayerId: data.id, matchId: data.matchId, type: data.type, name: data.username, league: data.league,
+      });
+    });
   });
 };
 

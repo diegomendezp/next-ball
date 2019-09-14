@@ -1,5 +1,4 @@
-
-
+import { wsConn } from "..";
 
 const initialStore = {
     user: null,
@@ -8,6 +7,7 @@ const initialStore = {
 export const auth = (store = initialStore, action) => {
     switch(action.type){
         case "LOGIN":
+            wsConn.activateNotifications(action.user)
             store = {
                 ...store,
                 user: action.user
