@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import MatchService from "./services/MatchService";
-import { getMatches } from "./actions";
+import { getMatches, getNotification } from "./actions";
 
 export class WebsocketConnection {
   constructor(store) {
@@ -20,6 +20,7 @@ export class WebsocketConnection {
     this.socket.on(`${user.id}`, data => {
       if (data.type == "challenge") {
         console.log(data);
+        this.store.dispatch(getNotification(data))
       }else if(data.type == "success"){
       } else if (data.type =="error"){
       } else {

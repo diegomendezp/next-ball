@@ -8,13 +8,16 @@ import { withStyles} from "@material-ui/core/styles";
 import { ThemeProvider } from '@material-ui/styles';
 import { withThemeConsumer } from "../../theme";
 import { connect } from "react-redux"
-import { getMatches } from "../../actions";
+import { withSnackbar } from 'notistack';
+
+
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
     ? {
         api: state.api.data,
-        user: state.auth.user
+        user: state.auth.user,
+        notifications: state.notify.notifications
       }
     : "";
 };
@@ -34,7 +37,15 @@ const displayMatches = (matches, user) => {
   });
 };
 
-function Home ({api, user, theme}) {
+const getNotification = (notifications, enqueueSnackbar) => {
+  const { notification } = notifications;
+  const { otherPlayerId, matchId, type, name, league } = notification
+  return enqueueSnackbar(`${name} has send a challenge to you`, {
+    variant: "info"
+  })
+}
+
+function Home ({api, user, theme, notifications, enqueueSnackbar}) {
     const { matches } = api ? api : null;
     return (
       <ThemeProvider theme={theme}>
@@ -49,9 +60,12 @@ function Home ({api, user, theme}) {
           <NewMatch />
         </PageWrapper>
         </Typography>
+        {notifications &&
+          getNotification(notifications, enqueueSnackbar)
+        }
       </ThemeProvider>
     );
   
 }
 
-export default withThemeConsumer(connect(mapStateToProps)(Home));
+export default withThemeConsumer(connect(mapStateToProps)(withSnackbar(Home)));

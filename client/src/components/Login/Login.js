@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { login, getMatches } from "../../actions";
+import { login, getMatches, getNotification } from "../../actions";
 import LoginWrapper from "./LoginStyles";
 import AuthService from "../../services/AuthService";
 import { ThemeProvider } from "@material-ui/styles";
@@ -57,6 +57,7 @@ class _LoginForm extends React.Component {
       .then(user => {
         dispatch(login(user));
         MatchService.getMatches().then(matches => {
+          dispatch(getNotification(null))
           dispatch(getMatches(matches));
           history.push("/");
         });
