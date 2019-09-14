@@ -11,6 +11,7 @@ const User = require('../models/user.model');
 module.exports.getMatches = (req, res, next) => {
   Match.find({})
     .populate('_author')
+    .populate('players')
     .then((matches) => {
       res.status(200).json(matches);
     })

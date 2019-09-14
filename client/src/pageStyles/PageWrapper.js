@@ -13,7 +13,10 @@ const PageWrapper = styled.section`
     flex-wrap: wrap;
   }
 
-
+  .panel {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   @media only screen and (min-width: 600px) and (max-width: 960px) {
   }
@@ -21,6 +24,11 @@ const PageWrapper = styled.section`
     .profile-container {
       display: flex;
       justify-content: space-between;
+    }
+
+    .panel {
+      padding-left: 24px;
+      padding-right: 24px;
     }
   }
   @media only screen and (min-width: 1280px) and (max-width: 1440px) {
@@ -32,11 +40,21 @@ const PageWrapper = styled.section`
       display: flex;
       justify-content: space-between;
     }
+
+    .panel {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
   @media only screen and (min-width: 1441px) {
     .profile-container {
       display: flex;
       justify-content: space-between;
+    }
+
+    .panel {
+      padding-left: 24px;
+      padding-right: 24px;
     }
   }
 `;

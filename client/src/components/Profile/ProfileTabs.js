@@ -23,8 +23,9 @@ function TabPanel(props) {
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
+      className="panel"
     >
-      <Box p={3}>{children}</Box>
+      <Box p={3} className="panel">{children}</Box>
     </Typography>
   );
 }
@@ -87,10 +88,10 @@ function ProfileTabs() {
       <TabPanel value={value} index={0} className={classes.panel}>
       <Record  />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1} className={classes.panel}>
         <MyMatches />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={2} className={classes.panel}>
         <Statistics />
       </TabPanel>
     </div>

@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
+import MatchService from "../services/MatchService";
+import { wsConn } from "..";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -82,6 +84,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary,
     boxShadow: theme.shadows[5],
     outline: "none"
+  },
+  buttonsContainer: {
+    display: "flex",
+    marginTop: "5%"
   }
 }));
 
@@ -107,7 +113,9 @@ export default function ProfileMatchCard({
   hour,
   location,
   players,
-  endMatch = false
+  id,
+  endMatch = false,
+  handleDelete = null
 }) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
@@ -121,6 +129,10 @@ export default function ProfileMatchCard({
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleDeletAux = (id) => {
+    handleDelete(id)
+  } 
 
   return (
     <Card className={classes.card}>
@@ -142,7 +154,7 @@ export default function ProfileMatchCard({
             Oponents: {getOponent(players)}
           </Typography>
           {endMatch && (
-            <div className="buttonsContainer">
+            <div className={classes.buttonsContainer}>
               <Button
                 className={classes.button}
                 onClick={e => console.log("Click")}
@@ -151,7 +163,7 @@ export default function ProfileMatchCard({
               </Button>
               <Button
                 className={classes.button}
-                onClick={e => console.log("Click")}
+                onClick={e => handleDeletAux(id)}
               >
                 Delete Match
               </Button>
