@@ -28,7 +28,7 @@ const StyledContainer = withStyles(theme => ({
 const displayMatches = (matches, user) => {
   return matches.map((match, i) => {
     if(user && user.id !== match._author.id){
-      return <CardWrapper {...match} user={user}></CardWrapper>
+      return <CardWrapper key={i} {...match} user={user}></CardWrapper>
     }
     
   });

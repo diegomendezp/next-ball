@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import * as io from "socket.io-client";
 
 import "./App.css";
 import { Signup } from "./components/Signup/Signup";
@@ -14,18 +13,19 @@ import Users from "./components/Users/Users";
 import Ranking from "./components/Ranking/Ranking";
 import Profile from "./components/Profile/Profile";
 import { SnackbarProvider } from "notistack";
+import { connect } from "react-redux";
 
-class App extends Component {
-  componentDidMount() {
-    this.socket = io(`${process.env.REACT_APP_API_URL}`);
-    this.socket.on("connect", () => {
-      console.log("Connected to WS");
-    });
-  }
+const mapStateToProps = (state, ownProps) => {
+  return state
+    ? {
+        notifications: state.notifications
+      }
+    : "";
+};
 
-  render() {
+function App (props) {
     return (
-      <ThemeProvider theme={this.props.theme}>
+      <ThemeProvider theme={props.theme}>
         <SnackbarProvider maxSnack={5} dense preventDuplicate>
           <Navbar />
           <Switch>
@@ -47,7 +47,6 @@ class App extends Component {
         </SnackbarProvider>
       </ThemeProvider>
     );
-  }
 }
 
 export default withThemeConsumer(App);

@@ -33,3 +33,10 @@ export const getInfo = (users, matches) => {
     matches,
   };
 };
+
+export const getNotification = (notification) => {
+  return {
+    type: "GETNOTIFICATION",
+    notification
+  };
+};
