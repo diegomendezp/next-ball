@@ -11,7 +11,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import reduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { login, logout } from "./actions";
+import { login, logout} from "./actions";
 import AuthService from "./services/AuthService";
 import { loadState, saveState } from './localStorage'
 import { ThemeProvider } from '@material-ui/styles';
@@ -28,6 +28,7 @@ const store = createStore(
 
 AuthService.currentUser().then(user => {
   store.dispatch(login(user));
+  
 }).catch(e =>store.dispatch(logout()));
 
 store.subscribe(() => {

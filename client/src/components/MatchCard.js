@@ -49,7 +49,9 @@ const useStyles = makeStyles(theme => ({
     width: "50%"
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
+    display: "flex",
+    flexDirection: "column"
   },
   cover: {
     width: 151
@@ -83,6 +85,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary,
     boxShadow: theme.shadows[5],
     outline: 'none'
+  },
+  button: {
+    margin: "0 auto",
+    textAlign: "center",
+    alignSelf: "center",
+    marginTop: "5%"
   }
 }));
 
@@ -129,7 +137,7 @@ export default function MediaControlCard({ _author, date, hour, location, id, us
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
-          <Button onClick={e => challenge(user, _author, id)}>Challenge</Button>
+          <Button className={classes.button} onClick={e => challenge(user, _author, id)}>Challenge</Button>
         </CardContent>
       </div>
       <ReactMapGL

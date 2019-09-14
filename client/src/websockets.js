@@ -18,13 +18,7 @@ export class WebsocketConnection {
 
   activateNotifications(user){
     this.socket.on(`${user.id}`, data => {
-      if (data.type == "challenge") {
-        console.log(data);
-        this.store.dispatch(getNotification(data))
-      }else if(data.type == "success"){
-      } else if (data.type =="error"){
-      } else {
-      }
+      this.store.dispatch(getNotification(data))
     });
   }
 
@@ -34,7 +28,6 @@ export class WebsocketConnection {
 
   sendChallange( player, otherPlayerId, matchId, type) {
     const { id, username, league } = player;
-    console.log(`Sending notify to -> ${otherPlayerId}`);
     this.socket.emit("notify", {
       type,
       otherPlayerId,
