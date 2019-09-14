@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
@@ -12,8 +13,8 @@ function rand() {
 }
 
 function getModalStyle() {
-  const top = 50 
-  const left = 50 
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -75,12 +76,12 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     width: 600,
     [theme.breakpoints.down("sm")]: {
-      width: 300,
+      width: 300
     },
     border: "2px solid #000",
     backgroundColor: theme.palette.primary,
     boxShadow: theme.shadows[5],
-    outline: 'none'
+    outline: "none"
   }
 }));
 
@@ -94,11 +95,20 @@ const dateFormat = (d, month, formal = false) => {
   return formal ? `${m}-${date}-${y}` : `${date}-${m}-${y}`;
 };
 
-const getOponent = (players) => {
-  return players.map((player, i) => i===0 ? `${player.username} –` : `${player.username}`)
-}
+const getOponent = players => {
+  return players.map((player, i) =>
+    i === 0 ? `${player.username} –` : `${player.username}`
+  );
+};
 
-export default function ProfileMatchCard({ _author, date, hour, location, players}) {
+export default function ProfileMatchCard({
+  _author,
+  date,
+  hour,
+  location,
+  players,
+  endMatch = false
+}) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
   const theme = useTheme();
@@ -127,10 +137,26 @@ export default function ProfileMatchCard({ _author, date, hour, location, player
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
-     
+
           <Typography variant="subtitle1" color="textSecondary">
             Oponents: {getOponent(players)}
           </Typography>
+          {endMatch && (
+            <div className="buttonsContainer">
+              <Button
+                className={classes.button}
+                onClick={e => console.log("Click")}
+              >
+                Finish Match
+              </Button>
+              <Button
+                className={classes.button}
+                onClick={e => console.log("Click")}
+              >
+                Delete Match
+              </Button>
+            </div>
+          )}
         </CardContent>
       </div>
       <ReactMapGL
@@ -148,29 +174,29 @@ export default function ProfileMatchCard({ _author, date, hour, location, player
           className={classes.marker}
         ></Marker>
       </ReactMapGL>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={open}
-          onClose={handleClose}
-        >
-          <div style={getModalStyle()} className={classes.paper}>
-            <ReactMapGL
-              width={"100%"}
-              height={450}
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={open}
+        onClose={handleClose}
+      >
+        <div style={getModalStyle()} className={classes.paper}>
+          <ReactMapGL
+            width={"100%"}
+            height={450}
+            latitude={lat}
+            longitude={lng}
+            zoom={12}
+            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          >
+            <Marker
               latitude={lat}
               longitude={lng}
-              zoom={12}
-              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-            >
-              <Marker
-                latitude={lat}
-                longitude={lng}
-                className={classes.marker}
-              ></Marker>
-            </ReactMapGL>
-          </div>
-        </Modal>
+              className={classes.marker}
+            ></Marker>
+          </ReactMapGL>
+        </div>
+      </Modal>
     </Card>
   );
 }

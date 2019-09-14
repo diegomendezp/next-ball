@@ -33,7 +33,9 @@ class MyMatches extends Component {
   displayMatches = () => {
     const { matches } = this.state;
     return matches.map((match, i) => {
-      return <ProfileMatchCard {...match}></ProfileMatchCard>;
+      if(new Date(match.date).getTime()< new Date().getTime()) {
+        return <ProfileMatchCard {...match} endMatch></ProfileMatchCard>;
+      }
     });
   };
 
