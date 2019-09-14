@@ -12,20 +12,28 @@ import InvertColorIcon from "@material-ui/icons/InvertColors";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { withThemeConsumer } from "../../theme";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 
-const _handleLogout = (props) => {
-  const {dispatch} = props;
-      AuthService.logout()
-      .then(() =>{
-         dispatch({ type: 'LOGOUT' })
-      })
-      .catch( e => {
-          console.error(e)
-      });
-}
+const mapStateToProps = (state, ownProps) => {
+  return state && state.api
+    ? {
+        user: state.auth.user
+      }
+    : "";
+};
+
+const _handleLogout = props => {
+  const { dispatch } = props;
+  AuthService.logout()
+    .then(() => {
+      dispatch({ type: "LOGOUT" });
+    })
+    .catch(e => {
+      console.error(e);
+    });
+};
 
 const useStyles = makeStyles(theme => ({
   position: "fixed",
@@ -66,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   },
   links: {
     color: "white",
-      textDecoration: "none",
+    textDecoration: "none",
     "&:visited": {
       color: "white",
       textDecoration: "none"
@@ -100,7 +108,7 @@ function Navbar(props) {
   }
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (props) =>(
+  const renderMenu = props => (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -110,8 +118,31 @@ function Navbar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose} onClick={() => _handleLogout(props)}>Logout</MenuItem>
+      {props.user && (
+        <React.Fragment>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/profile">Profile</Link>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              _handleLogout(props);
+              handleMenuClose();
+            }}
+          >
+            Logout
+          </MenuItem>
+        </React.Fragment>
+      )}
+      {!props.user && (
+        <React.Fragment>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/login">Login</Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/signup">Register</Link>
+          </MenuItem>
+        </React.Fragment>
+      )}
     </Menu>
   );
 
@@ -136,7 +167,7 @@ function Navbar(props) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Account</p>
       </MenuItem>
       <MenuItem onClick={() => props.changeTheme()}>
         <IconButton color="inherit">
@@ -145,13 +176,31 @@ function Navbar(props) {
         {props.theme.palette.type === "light" && <p>Dark Mode</p>}
         {props.theme.palette.type === "dark" && <p>Light Mode</p>}
       </MenuItem>
+      {props.user && (
+        <React.Fragment>
+          <MenuItem>
+            <Button color="inherit" onClick={handleMobileMenuClose}>
+              <Link to="/">Matches</Link>
+            </Button>
+          </MenuItem>
+          <MenuItem>
+            <Button color="inherit" onClick={handleMobileMenuClose}>
+              <Link to="/users">Users</Link>
+            </Button>
+          </MenuItem>
+          <MenuItem>
+            <Button color="inherit" onClick={handleMobileMenuClose}>
+              <Link to="/ranking">Ranking</Link>
+            </Button>
+          </MenuItem>
+        </React.Fragment>
+      )}
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
       <AppBar position="fixed">
-        
         <Toolbar>
           {/* <IconButton
             edge="start"
@@ -166,9 +215,26 @@ function Navbar(props) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color="inherit" ><Link to="/" className={classes.links}>Matches</Link></Button>
-            <Button color="inherit" ><Link to="/users" className={classes.links}>Users</Link></Button>
-            <Button color="inherit" ><Link to="/ranking" className={classes.links}>Ranking</Link></Button>
+            {props.user && (
+              <React.Fragment>
+                <Button color="inherit">
+                  <Link to="/" className={classes.links}>
+                    Matches
+                  </Link>
+                </Button>
+                <Button color="inherit">
+                  <Link to="/users" className={classes.links}>
+                    Users
+                  </Link>
+                </Button>
+                <Button color="inherit">
+                  <Link to="/ranking" className={classes.links}>
+                    Ranking
+                  </Link>
+                </Button>
+              </React.Fragment>
+            )}
+
             <IconButton
               aria-label="Toggle light/dark theme"
               title="Toggle light/dark theme"
@@ -207,4 +273,4 @@ function Navbar(props) {
   );
 }
 
-export default connect()(withThemeConsumer(Navbar));
+export default withThemeConsumer(connect(mapStateToProps)(Navbar));
