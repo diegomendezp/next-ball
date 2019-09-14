@@ -44,7 +44,8 @@ class MyMatches extends Component {
         <Typography
           component="div"
           style={{
-            minHeight: "100%",
+            maxHeight: "80vh",
+            overflowY:"scroll",
             backgroundColor: this.props.theme.palette.background.paper
           }}
         >

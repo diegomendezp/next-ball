@@ -27,14 +27,17 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: "absolute",
     width: 600,
+    height: "auto",
     [theme.breakpoints.down("sm")]: {
-      width: 300
+      width: 300,
+      height: "500px",
     },
     height: "auto",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+    padding: theme.spacing(2, 4, 3),
+    overflowY: "scroll"
   },
   fab: {
     position: "absolute",
