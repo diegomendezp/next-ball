@@ -37,6 +37,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   }
 
+  static deleteMatch = (id) => {
+    return instance.delete(`/${id}`).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  } 
+
 }
 
 export default MatchService;
