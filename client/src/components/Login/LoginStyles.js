@@ -13,6 +13,9 @@ const LoginWrapper = styled.section`
     width: 100%;
   }
 
+  .error-message {
+    color: red;
+  }
   .paper {
     margin-top: 5%;
     display: flex;

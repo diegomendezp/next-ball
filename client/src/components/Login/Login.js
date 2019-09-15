@@ -5,7 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -27,8 +27,7 @@ function Copyright() {
       {/* <Link color="inherit" href="https://material-ui.com/">
         Next ball
       </Link>{" "} */}
-      Next ball {" "}
-      {new Date().getFullYear()}
+      Next ball {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -52,34 +51,45 @@ class _LoginForm extends React.Component {
   handleLogin() {
     const { email, password } = this.state;
     const { history, dispatch } = this.props;
-    AuthService
-      .login({ email, password })
+    AuthService.login({ email, password })
       .then(user => {
-        dispatch(login(user));
-        MatchService.getMatches().then(matches => {
-          dispatch(getNotification(null))
-          dispatch(getMatches(matches));
-          history.push("/");
-        });
-        
+        if (user.error) {
+          this.handleError();
+        } else {
+          dispatch(login(user));
+          MatchService.getMatches().then(matches => {
+            dispatch(getNotification(null));
+            dispatch(getMatches(matches));
+            history.push("/");
+          });
+        }
+
+        console.log(user);
       })
       .catch(e => {
-        console.error(e);
+        console.error(e + "EEEERROOOR");
       });
   }
 
   handleError = () => {
-    this.setState({...this.state, error:true, errorMessage:"Incorrect username or password"}, ()=> {
-      setTimeout(()=> {
-        this.setState({...this.state, error:false, errorMessage:""})
-      }, 3000)
-    })
-  }
+    this.setState(
+      {
+        ...this.state,
+        error: true,
+        errorMessage: "Incorrect username or password"
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({ ...this.state, error: false, errorMessage: "" });
+        }, 3000);
+      }
+    );
+  };
 
   handleChange = (name, value) => {
     this.setState({
       ...this.state,
-        [name]: value
+      [name]: value
     });
   };
 
@@ -88,85 +98,87 @@ class _LoginForm extends React.Component {
 
     return (
       <ThemeProvider theme={this.props.theme}>
-      <Typography
-        component="div"
-        style={{
-          minHeight: "100vh",
-          backgroundColor: this.props.theme.palette.background.paper
-        }}
-      >
-        <LoginWrapper>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className="paper">
-          <Avatar className={this.classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <form className={this.classes.form} validate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={e => this.handleChange("email", e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              type="password"
-              onChange={e => this.handleChange("password", e.target.value)}
-            />
-            {error && <p className="error-message">{errorMessage}</p> }
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="submit"
-              onClick={() => this.handleLogin()}
-            >
-              Login
-            </Button>
-            <Grid container className="signup-link-container">
-              {/* <Grid item xs>
+        <Typography
+          component="div"
+          style={{
+            minHeight: "100vh",
+            backgroundColor: this.props.theme.palette.background.paper
+          }}
+        >
+          <LoginWrapper>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <div className="paper">
+                <Avatar className={this.classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Login
+                </Typography>
+                <form className={this.classes.form} validate>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={e => this.handleChange("email", e.target.value)}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    type="password"
+                    onChange={e =>
+                      this.handleChange("password", e.target.value)
+                    }
+                  />
+                  {error && <p className="error-message">{errorMessage}</p>}
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className="submit"
+                    onClick={() => this.handleLogin()}
+                  >
+                    Login
+                  </Button>
+                  <Grid container className="signup-link-container">
+                    {/* <Grid item xs>
                  <Link href="#" variant="body2">
                    Forgot password?
                  </Link>
               </Grid> */}
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Container>
-      </LoginWrapper>
-      </Typography>
+                    <Grid item>
+                      <Link to="/signup" variant="body2">
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </form>
+              </div>
+              <Box mt={8}>
+                <Copyright />
+              </Box>
+            </Container>
+          </LoginWrapper>
+        </Typography>
       </ThemeProvider>
     );
   }

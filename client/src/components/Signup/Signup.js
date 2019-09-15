@@ -48,8 +48,13 @@ class _SignupForm extends React.Component {
     const { history, dispatch } = this.props;
     AuthService.signup({ username, password, email })
       .then(user => {
-        dispatch(login(user));
-        history.push("/");
+        if(user.error) {
+          
+        } else {
+          dispatch(login(user));
+          history.push("/");
+        }
+
       })
       .catch(e => {
         console.error(e);

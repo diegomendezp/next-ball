@@ -7,9 +7,7 @@ const instance = axios.create({
 
 class AuthService {
   static errorHandler(e) {
-    console.error("AUTH API ERROR");
-    console.error(e);
-    throw e;
+    return ({ error:e })
   }
 
   static signup = user => {

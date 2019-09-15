@@ -27,7 +27,11 @@ const store = createStore(
 );
 
 AuthService.currentUser().then(user => {
-  store.dispatch(login(user));
+  if(user.error){
+
+  } else {
+    store.dispatch(login(user));
+  }
   
 }).catch(e =>store.dispatch(logout()));
 
