@@ -54,8 +54,9 @@ class Statistics extends Component {
         <Typography
           component="div"
           style={{
-            minHeight: "100%",
-            backgroundColor: this.props.theme.palette.background.paper
+            maxHeight: "80vh",
+          overflowY: "scroll",
+          backgroundColor: this.props.theme.palette.background.paper
           }}
         >
           <PageWrapper>

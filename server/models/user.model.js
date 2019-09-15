@@ -28,7 +28,6 @@ const userSchema = new Schema(
     },
     image: {
       type: String,
-      match: [URL_PATTERN, 'Invalid avatar URL pattern'],
       default:
         'https://e00-marca.uecdn.es/assets/multimedia/imagenes/2018/06/10/15286487701441.jpg',
     },
@@ -71,9 +70,9 @@ userSchema.pre('save', function (next) {
     bcrypt
       .genSalt(SALT_WORK_FACTOR)
       .then(salt => bcrypt.hash(user.password, salt).then((hash) => {
-          user.password = hash;
-          next();
-        }),)
+        user.password = hash;
+        next();
+      }) )
       .catch(next);
   }
 });

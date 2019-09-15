@@ -24,16 +24,16 @@ class Ranking extends Component {
   componentDidMount() {
     const { api, dispatch, user } = this.props;
 
-    if(api && api.data && api.data.users){
-      this.setState({
-        ...this.state,
-        users: api.data.users
-      });
-    } else {
+    // if(api && api.data && api.data.users){
+    //   this.setState({
+    //     ...this.state,
+    //     users: api.data.users
+    //   });
+    // } else {
       AuthService.getUsers()
       .then(users => this.setState({...this.state, users}))
       .catch(e => "Users api error")
-    }
+    // }
   }
 
   render() {

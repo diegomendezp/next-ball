@@ -43,7 +43,8 @@ function Record({ api, theme, user , dispatch}) {
       <Typography
         component="div"
         style={{
-          minHeight: "100%",
+          maxHeight: "80vh",
+          overflowY: "scroll",
           backgroundColor: theme.palette.background.paper
         }}
       >

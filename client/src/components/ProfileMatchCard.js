@@ -212,6 +212,7 @@ export default function ProfileMatchCard({
   const finishMatch = (e, matchId, winner, players, handleFinish, dispatch) => {
     e.preventDefault();
     const loser = players.find(player => player.id !== winner.id);
+    handleClose2();
     handleFinish(matchId, winner, loser, dispatch);
   };
 
