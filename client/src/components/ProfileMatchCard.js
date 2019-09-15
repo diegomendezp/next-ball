@@ -11,7 +11,7 @@ import MatchService from "../services/MatchService";
 import { wsConn } from "..";
 import Select from "@material-ui/core/Select";
 import Container from "@material-ui/core/Container";
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from "@material-ui/core/MenuItem";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -25,8 +25,8 @@ function getModalStyle() {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-    borderRadius:"2px",
-    outline:"none"
+    borderRadius: "2px",
+    outline: "none"
   };
 }
 
@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary,
     boxShadow: theme.shadows[5],
     outline: "none",
-    borderRadius:"2px"
+    borderRadius: "2px"
   },
   buttonsContainer: {
     display: "flex",
@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     overflowY: "scroll",
-    borderRadius:"2px"
+    borderRadius: "2px"
   },
   fab: {
     position: "absolute",
@@ -152,6 +152,15 @@ const getOponent = players => {
   );
 };
 
+const getResult = (loser, user) => {
+  const message = loser !== user.id ? "You win 🏆" : "You lose 😞";
+  return (
+    <Typography variant="subtitle1" color="textSecondary">
+      {message}
+    </Typography>
+  );
+};
+
 export default function ProfileMatchCard({
   _author,
   date,
@@ -159,8 +168,13 @@ export default function ProfileMatchCard({
   location,
   players,
   id,
+  loser,
   endMatch = false,
-  handleDelete = null
+  handleDelete = null,
+  handleFinish = null,
+  dispatch = null,
+  record = false,
+  user
 }) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
@@ -195,6 +209,12 @@ export default function ProfileMatchCard({
     handleDelete(id);
   };
 
+  const finishMatch = (e, matchId, winner, players, handleFinish, dispatch) => {
+    e.preventDefault();
+    const loser = players.find(player => player.id !== winner.id);
+    handleFinish(matchId, winner, loser, dispatch);
+  };
+
   return (
     <Card className={classes.card}>
       <div className={classes.details}>
@@ -210,7 +230,7 @@ export default function ProfileMatchCard({
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
-
+          {record && getResult(loser, user)}
           <Typography variant="subtitle1" color="textSecondary">
             Oponents: {getOponent(players)}
           </Typography>
@@ -247,15 +267,14 @@ export default function ProfileMatchCard({
                       inputProps={{
                         name: "winner",
                         id: "winner",
-                        'aria-label': 'age'
+                        "aria-label": "age"
                       }}
-
                       value={winner}
                     >
-                      <MenuItem value={players[0].username}>
+                      <MenuItem value={players[0]}>
                         {players[0].username}
                       </MenuItem>
-                      <MenuItem value={players[1].username}>
+                      <MenuItem value={players[1]}>
                         {players[1].username}
                       </MenuItem>
                     </Select>
@@ -272,7 +291,16 @@ export default function ProfileMatchCard({
                     variant="contained"
                     color="primary"
                     className={classes.cancelButton}
-                    onClick={e => console.log("Modal")}
+                    onClick={e =>
+                      finishMatch(
+                        e,
+                        id,
+                        winner,
+                        players,
+                        handleFinish,
+                        dispatch
+                      )
+                    }
                   >
                     Aceptar
                   </Button>

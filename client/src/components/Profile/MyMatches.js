@@ -8,6 +8,8 @@ import { withThemeConsumer } from "../../theme";
 import { connect } from "react-redux";
 import ProfileMatchCard from "../ProfileMatchCard";
 import { wsConn } from "../..";
+import AuthService from "../../services/AuthService";
+import { login } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -18,10 +20,10 @@ const mapStateToProps = (state, ownProps) => {
     : "";
 };
 
-const displayMatches = (matches, user) => {
+const displayMatches = (matches, user, dispatch) => {
   return matches.map((match, i) => {
-    if (new Date(match.date).getTime() < new Date().getTime() && match.players.find(player => player.id === user.id)) {
-      return <ProfileMatchCard {...match} endMatch handleDelete={handleDelete}></ProfileMatchCard>;
+    if (new Date(match.date).getTime() < new Date().getTime() && match.players.find(player => player.id === user.id) && !match.ended) {
+      return <ProfileMatchCard {...match} endMatch handleDelete={handleDelete} handleFinish={handleFinish} dispatch={dispatch} user={user}></ProfileMatchCard>;
     }
   });
 };
@@ -31,10 +33,20 @@ const handleDelete = (id) => {
     wsConn.sendMatch()
   })
 } 
+const handleFinish = (matchId, winner, loser, dispatch) => {
+  Promise.all([MatchService.setWinner(winner.id), MatchService.setLoser(loser.id), MatchService.finishMatch(matchId, winner, loser)])
+    .then((values) => {
+      AuthService.currentUser().then(user => {
+        dispatch(login(user));
+        wsConn.sendMatch()
+      })
+    })
+}
 
-function MyMatches({ api, theme, user }) {
-  const { matches } = api;
 
+function MyMatches({ api, theme, user , dispatch}) {
+  const { matches } = api ? api : null;
+  
   return (
     <ThemeProvider theme={theme}>
       <Typography
@@ -47,7 +59,7 @@ function MyMatches({ api, theme, user }) {
       >
         <PageWrapper>
           <div className="matches-container">
-            {matches && displayMatches(matches, user)}
+            {matches && displayMatches(matches, user, dispatch)}
             {!matches ||
               (matches.length === 0 && (
                 <Typography variant="subtitle1" color="textSecondary">

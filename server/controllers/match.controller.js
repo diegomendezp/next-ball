@@ -147,8 +147,8 @@ module.exports.endMatch = (req, res) => {
   Match.findByIdAndUpdate(
     req.params.matchId,
     {
-      winner,
-      loser,
+      winner: winner.id,
+      loser: loser.id,
       ended: true,
       finish: Date.now(),
     },
@@ -224,6 +224,7 @@ module.exports.setLoser = (req, res) => {
       //     user.league -= 1;
       //   }
       // }
+
       user.save().then(() => res.status(200).json(user));
     })
     .catch((e) => {
