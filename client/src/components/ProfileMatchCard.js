@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import InputLabel from "@material-ui/core/InputLabel";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Avatar from "@material-ui/core/Avatar";
 import Modal from "@material-ui/core/Modal";
@@ -133,6 +134,9 @@ const useStyles = makeStyles(theme => ({
   },
   cancelButton: {
     marginRight: "5%"
+  },
+  valorateButton: {
+    margin: "0 auto"
   }
 }));
 
@@ -182,7 +186,13 @@ export default function ProfileMatchCard({
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
   const [winner, setWinner] = React.useState("");
+  const [drive, setDrive] = React.useState(5);
+  const [backhand, setBackhand] = React.useState(5);
+  const [serve, setServe] = React.useState(5);
+  const [volley, setVolley] = React.useState(5);
+  const [resistance, setResistance] = React.useState(5);
 
   const handleOpen = () => {
     setOpen(true);
@@ -200,9 +210,22 @@ export default function ProfileMatchCard({
     setOpen2(false);
   };
 
+  const handleOpen3 = () => {
+    setOpen3(true);
+  };
+
+  const handleClose3 = () => {
+    setOpen3(false);
+  };
+
   const handleAbort = e => {
     e.preventDefault();
     handleClose2();
+  };
+
+  const handleAbort2 = e => {
+    e.preventDefault();
+    handleClose3();
   };
 
   const handleDeletAux = id => {
@@ -214,6 +237,14 @@ export default function ProfileMatchCard({
     const loser = players.find(player => player.id !== winner.id);
     handleClose2();
     handleFinish(matchId, winner, loser, dispatch);
+  };
+
+  const displayOptions = () => {
+    return Array(11)
+      .fill(0)
+      .map((_, i) => {
+        return <MenuItem value={i}>{i}</MenuItem>;
+      });
   };
 
   return (
@@ -247,6 +278,138 @@ export default function ProfileMatchCard({
                 Delete Match
               </Button>
             </div>
+          )}
+
+          {record && (
+            <div className={classes.buttonsContainer}>
+              <Button
+                className={classes.valorateButton}
+                onClick={e => handleOpen3()}
+              >
+                Valorate
+              </Button>
+            </div>
+          )}
+          {record && players.length > 1 && (
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={open3}
+              onClose={handleClose3}
+            >
+              <Container style={modalStyle} className={classes.paper}>
+                <Typography component="h2" variant="h5">
+                  Valorate the other user
+                </Typography>
+                <form validate autoComplete="off" className={classes.container}>
+                  <div className={classes.select}>
+                  <InputLabel htmlFor="drive-simple">Drive</InputLabel>
+                    <Select
+                      onChange={e => setDrive(+e.target.value)}
+                      label="User Drive: "
+                      name="drive"
+                      inputProps={{
+                        name: "drive",
+                        id: "drive",
+                        "aria-label": "age"
+                      }}
+                      value={drive}
+                    >
+                      {displayOptions()}
+                    </Select>
+                  </div>
+                  <div className={classes.select}>
+                  <InputLabel htmlFor="drive-simple">Backhand</InputLabel>
+                    <Select
+                      onChange={e => setBackhand(+e.target.value)}
+                      label="User Backhand: "
+                      name="backhand"
+                      inputProps={{
+                        name: "backhand",
+                        id: "backhand",
+                        "aria-label": "age"
+                      }}
+                      value={backhand}
+                    >
+                      {displayOptions()}
+                    </Select>
+                  </div>
+                  <div className={classes.select}>
+                  <InputLabel htmlFor="drive-simple">Serve</InputLabel>
+                    <Select
+                      onChange={e => setServe(+e.target.value)}
+                      label="User Serve: "
+                      name="serve"
+                      inputProps={{
+                        name: "serve",
+                        id: "serve",
+                        "aria-label": "age"
+                      }}
+                      value={serve}
+                    >
+                      {displayOptions()}
+                    </Select>
+                  </div>
+                  <div className={classes.select}>
+                  <InputLabel htmlFor="drive-simple">Volley</InputLabel>
+                    <Select
+                      onChange={e => setVolley(+e.target.value)}
+                      label="User Volley: "
+                      name="volley"
+                      inputProps={{
+                        name: "volley",
+                        id: "volley",
+                        "aria-label": "age"
+                      }}
+                      value={volley}
+                    >
+                      {displayOptions()}
+                    </Select>
+                  </div>
+                  <div className={classes.select}>
+                  <InputLabel htmlFor="drive-simple">Resistance</InputLabel>
+                    <Select
+                      onChange={e => setResistance(+e.target.value)}
+                      label="User Resistance: "
+                      name="resistance"
+                      inputProps={{
+                        name: "resistance",
+                        id: "resistance",
+                        "aria-label": "age"
+                      }}
+                      value={resistance}
+                    >
+                      {displayOptions()}
+                    </Select>
+                  </div>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.cancelButton}
+                    onClick={e => handleAbort2(e)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.cancelButton}
+                    onClick={e =>
+                      finishMatch(
+                        e,
+                        id,
+                        winner,
+                        players,
+                        handleFinish,
+                        dispatch
+                      )
+                    }
+                  >
+                    Aceptar
+                  </Button>
+                </form>
+              </Container>
+            </Modal>
           )}
           {endMatch && players.length > 1 && (
             <Modal
