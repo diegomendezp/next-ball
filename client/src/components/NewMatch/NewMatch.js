@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -12,6 +12,9 @@ import Button from "@material-ui/core/Button";
 import MatchService from "../../services/MatchService";
 import { wsConn } from "../..";
 
+import InputBase from "@material-ui/core/InputBase";
+import PageWrapper from "../../pageStyles/PageWrapper";
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -20,8 +23,8 @@ function getModalStyle() {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-    borderRadius:"2px",
-    outline:"none"
+    borderRadius: "2px",
+    outline: "none"
   };
 }
 
@@ -32,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     height: "auto",
     [theme.breakpoints.down("sm")]: {
       width: 300,
-      height: "500px",
+      height: "500px"
     },
     height: "auto",
     backgroundColor: theme.palette.background.paper,
@@ -40,7 +43,8 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     overflowY: "scroll",
-    borderRadius:"2px",
+    borderRadius: "2px",
+    outline: "none"
   },
   fab: {
     position: "absolute",
@@ -62,6 +66,31 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200
+  },
+  cancelButton: {
+    marginRight: "5%"
+  },
+  buttonsContainer: {
+    display: "flex",
+    margin: "5% auto 0 auto"
+  },
+  inputsContainer: {
+    marginBottom: "5%"
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginRight: "8px",
+    marginLeft: "8px",
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: "8px",
+      width: "auto"
+    }
   }
 }));
 
@@ -92,19 +121,20 @@ export default function NewMatch() {
     setPoint({ longitude, latitude, place: item.place_name });
   };
 
-  const createMatch = (e)=> {
+  const createMatch = e => {
     const { longitude, latitude, place } = point;
     e.preventDefault();
-    MatchService.newMatch({ hour, date, lat:latitude, lng:longitude })
-    .then(() => {
-      wsConn.sendMatch()
-      handleClose()
-    })
-  }
-  const handleAbort = (e) => {
+    MatchService.newMatch({ hour, date, lat: latitude, lng: longitude }).then(
+      () => {
+        wsConn.sendMatch();
+        handleClose();
+      }
+    );
+  };
+  const handleAbort = e => {
     e.preventDefault();
     handleClose();
-  }
+  };
 
   const { longitude, latitude, place } = point;
 
@@ -121,49 +151,64 @@ export default function NewMatch() {
             Create match
           </Typography>
           <form validate autoComplete="off" className={classes.container}>
-            <TextField
-              label="Time:"
-              className={classes.textField}
-              value={hour}
-              required
-              autoFocus
-              onChange={e => setHour(e.target.value)}
-              margin="normal"
-              InputLabelProps={{
-                shrink: true
-              }}
-              inputProps={{
-                step: 300
-              }}
-              type="time"
-              id="time"
-            />
-            <TextField
-              label="Date:"
-              className={classes.textField}
-              value={date}
-              required
-              autoFocus
-              onChange={e => setDate(e.target.value)}
-              margin="normal"
-              type="date"
-              id="date"
-            />
+            <div className={classes.inputsContainer}>
+              <TextField
+                label="Time:"
+                className={classes.textField}
+                value={hour}
+                required
+                autoFocus
+                onChange={e => setHour(e.target.value)}
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  step: 300
+                }}
+                type="time"
+                id="time"
+              />
+              <TextField
+                label="Date:"
+                className={classes.textField}
+                value={date}
+                required
+                autoFocus
+                onChange={e => setDate(e.target.value)}
+                margin="normal"
+                type="date"
+                id="date"
+              />
 
-            <TextField
-              disabled
-              id="standard-disabled"
-              label="Selected address"
-              value={place}
-              className={classes.textField}
-              margin="normal"
-            />
-            <Geocoder
-              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-              onSelected={_onSelected}
-              hideOnSelect={true}
-              queryParams={queryParams}
-            />
+              <PageWrapper>
+                <div className="geocoder-container">
+                  <label>
+                    {" "}
+                    <Typography component="label" variant="label">
+                      Search place: {" "}
+                    </Typography>
+                  </label>
+                  <Geocoder
+                    mapboxApiAccessToken={
+                      process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+                    }
+                    onSelected={_onSelected}
+                    hideOnSelect={true}
+                    queryParams={queryParams}
+                  />
+                </div>
+              </PageWrapper>
+
+              <TextField
+                disabled
+                id="standard-disabled"
+                label="Selected address"
+                value={place}
+                className={classes.textField}
+                margin="normal"
+              />
+            </div>
             <MapGL
               width={"100%"}
               height={450}
@@ -184,22 +229,24 @@ export default function NewMatch() {
               ></Marker>
             </MapGL>
 
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              onClick={e => handleAbort(e)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={(e) => createMatch(e)}
-            >
-              Accept
-            </Button>
+            <div className={classes.buttonsContainer}>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.cancelButton}
+                onClick={e => handleAbort(e)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={e => createMatch(e)}
+              >
+                Accept
+              </Button>
+            </div>
           </form>
         </Container>
       </Modal>
