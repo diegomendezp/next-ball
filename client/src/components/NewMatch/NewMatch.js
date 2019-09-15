@@ -11,8 +11,6 @@ import Geocoder from "react-mapbox-gl-geocoder";
 import Button from "@material-ui/core/Button";
 import MatchService from "../../services/MatchService";
 import { wsConn } from "../..";
-
-import InputBase from "@material-ui/core/InputBase";
 import PageWrapper from "../../pageStyles/PageWrapper";
 
 function getModalStyle() {

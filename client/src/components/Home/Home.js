@@ -13,6 +13,7 @@ import { wsConn } from "../..";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import TextField from "@material-ui/core/TextField";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -34,9 +35,9 @@ const useStyles = makeStyles(theme => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: "60%",
+    width: "80%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
+      marginLeft:  0,
       width: "auto"
     }
   },
@@ -58,6 +59,12 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: 200
+    }
+  },
+  textField: {
+    width: "40%",
+    [theme.breakpoints.down("sm")]: {
+      width: "80%"
     }
   }
 }));
@@ -154,11 +161,28 @@ function Home({
   const { matches } = api ? api : null;
   const [username, setUsername] = React.useState("");
   const [matchesAux, setMatchesAux] = React.useState([...matches]);
+  const [date, setDate] = React.useState("")
+  const [hour, setHour] = React.useState("");
 
 
   const handleInputChange = (value) => {
-    const searchMatches = matches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase()))
+    let searchMatches = matches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase()))
+    searchMatches = date ? searchMatches.filter((match) => new Date(match.date).getTime() === new Date(date).getTime()) : searchMatches;
+    searchMatches = hour ? searchMatches.filter((match) => hour === match.hour) : searchMatches;
+    setMatchesAux([...searchMatches])
+  }
 
+  const handleDate = (value) => {
+    let searchMatches = matches.filter((match) => new Date(match.date).getTime() === new Date(value).getTime());
+    searchMatches = username ? searchMatches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase())) : searchMatches
+    searchMatches = hour ? searchMatches.filter((match) => hour === match.hour) : searchMatches;
+    setMatchesAux([...searchMatches])
+  }
+
+  const handleHour = (value) => {
+    let searchMatches =  matches.filter((match) => value === match.hour);
+    searchMatches = username ? searchMatches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase())) : searchMatches
+    searchMatches =  date ? searchMatches.filter((match) => new Date(match.date).getTime() === new Date(date).getTime()) : searchMatches;
     setMatchesAux([...searchMatches])
   }
 
@@ -200,7 +224,43 @@ function Home({
                   inputProps={{ "aria-label": "search" }}
                 />
               </div>
-            </div>
+              <div className="time-container">
+                <TextField
+                  label="Date:"
+                  className={classes.textField}
+                  value={date ? date : new Date()}
+                  required
+                  autoFocus
+                  onChange={e => {
+                    setDate(e.target.value)
+                    handleDate(e.target.value)
+                  }}
+                  margin="normal"
+                  type="date"
+                  id="date"
+                />
+                <TextField
+                label="Time:"
+                className={classes.textField}
+                value={hour}
+                required
+                autoFocus
+                onChange={e => {
+                  setHour(e.target.value)
+                  handleHour(e.target.value)
+                }}
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  step: 300
+                }}
+                type="time"
+                id="time"
+              />
+              </div>
+            </div>   
           </div>
           <StyledContainer className="page-container">
             <div className="matches-container">

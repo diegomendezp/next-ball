@@ -26,19 +26,20 @@ const PageWrapper = styled.section`
 
     h2 {
       z-index: 1;
-      font-size: 56px;
-    font-weight: 700;
-    line-height: 1.13;
-    letter-spacing: -.3px;
-    margin-bottom: 24px;
+      font-size: 35px;
+      font-weight: 700;
+      line-height: 1.13;
+      letter-spacing: -0.3px;
+      margin-bottom: 24px;
     }
     .search-form {
       background-color: rgb(255, 255, 255);
       border-radius: 4px;
       color: rgb(47, 51, 51);
       padding: 24px;
-      z-index:1 ;
+      z-index: 1;
       font-family: "Roboto", "Helvetica", "Arial";
+      width: 80%;
     }
 
     &::before {
@@ -53,7 +54,12 @@ const PageWrapper = styled.section`
       width: 100%;
       height: 100%;
       opacity: 0.7;
-      
+    }
+
+    .time-container {
+      margin-top: 5%;
+      display: flex;
+      flex-direction: column;
     }
   }
 
@@ -90,6 +96,27 @@ const PageWrapper = styled.section`
 
       label {
         margin-bottom: 0px;
+      }
+
+      
+    }
+    .bg-container {
+      h2 {
+      z-index: 1;
+      font-size: 56px;
+
+    }
+      .search-form {
+        width: 60%;
+      }
+      .time-container {
+        margin-top: 3%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        input {
+          width: 50%;
+        }
       }
     }
   }
