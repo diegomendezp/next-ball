@@ -7,7 +7,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { withThemeConsumer } from '../../theme';
-import { ThemeProvider } from "@material-ui/styles";
 import Record from './Record';
 import Statistics from './Statistics';
 import MyMatches from './MyMatches';

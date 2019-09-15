@@ -9,10 +9,6 @@ import Modal from "@material-ui/core/Modal";
 import { Button } from "@material-ui/core";
 import { wsConn } from "..";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
 function getModalStyle() {
   const top = 50 
   const left = 50 
@@ -107,7 +103,6 @@ const dateFormat = (d, month, formal = false) => {
 export default function MediaControlCard({ _author, date, hour, location, id, user }) {
   const [lat, lng] = location.coordinates;
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {

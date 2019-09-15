@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 const handleValorate = (statistics, userId, dispatch) => {
   AuthService.valorate(statistics, userId)
   .then(() => {
-    console.log("Success")
+    
   })
 }
 

@@ -119,7 +119,7 @@ function Navbar(props) {
       onClose={handleMenuClose}
     >
       {props.user && (
-        <React.Fragment>
+        <div>
           <MenuItem onClick={handleMenuClose}>
             <Link to="/profile" style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Profile</Link>
           </MenuItem>
@@ -131,17 +131,17 @@ function Navbar(props) {
           >
             Logout
           </MenuItem>
-        </React.Fragment>
+        </div>
       )}
       {!props.user && (
-        <React.Fragment>
+        <div>
           <MenuItem onClick={handleMenuClose}>
             <Link to="/login"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Login</Link>
           </MenuItem>
           <MenuItem onClick={handleMenuClose}>
             <Link to="/signup"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Register</Link>
           </MenuItem>
-        </React.Fragment>
+        </div>
       )}
     </Menu>
   );
@@ -177,7 +177,7 @@ function Navbar(props) {
         {props.theme.palette.type === "dark" && <p>Light Mode</p>}
       </MenuItem>
       {props.user && (
-        <React.Fragment>
+        <div>
           <MenuItem>
             <Button color="inherit" onClick={handleMobileMenuClose}>
               <Link to="/"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Matches</Link>
@@ -193,7 +193,7 @@ function Navbar(props) {
               <Link to="/ranking"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Ranking</Link>
             </Button>
           </MenuItem>
-        </React.Fragment>
+        </div>
       )}
     </Menu>
   );

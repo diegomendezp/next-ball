@@ -242,7 +242,6 @@ export default function ProfileMatchCard({
 
   const valorateUser = (e, statistics, user, dispatch, players) => {
     e.preventDefault();
-    console.log(statistics)
     const userId = players.find(player => player.id !== user.id);
     handleClose3();
     handleValorate(statistics, userId.id, dispatch);

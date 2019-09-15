@@ -8,23 +8,23 @@ const getData = statisticsAverage => {
       {
         label: "Personal Statistics",
         data: [
-          statisticsAverage.drive.length == 0
+          statisticsAverage.drive.length === 0
             ? 5
             : statisticsAverage.drive.reduce((a, b) => a + b) /
               statisticsAverage.drive.length,
-          statisticsAverage.backhand.length == 0
+          statisticsAverage.backhand.length === 0
             ? 5
             : statisticsAverage.backhand.reduce((a, b) => a + b) /
               statisticsAverage.backhand.length,
-          statisticsAverage.serve.length == 0
+          statisticsAverage.serve.length === 0
             ? 5
             : statisticsAverage.serve.reduce((a, b) => a + b) /
               statisticsAverage.serve.length,
-          statisticsAverage.volley.length == 0
+          statisticsAverage.volley.length === 0
             ? 5
             : statisticsAverage.volley.reduce((a, b) => a + b) /
               statisticsAverage.volley.length,
-          statisticsAverage.resistance.length == 0
+          statisticsAverage.resistance.length === 0
             ? 5
             : statisticsAverage.resistance.reduce((a, b) => a + b) /
               statisticsAverage.resistance.length
