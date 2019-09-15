@@ -195,7 +195,7 @@ function Home({
           backgroundColor: theme.palette.background.paper
         }}
       >
-        <PageWrapper>
+        <PageWrapper theme={theme}>
           <div className="bg-container">
             <Typography
               component="h2"
@@ -228,6 +228,9 @@ function Home({
                 <TextField
                   label="Date:"
                   className={classes.textField}
+                  style={{
+                    color: theme.palette.primary.link
+                  }}
                   value={date ? date : new Date()}
                   required
                   autoFocus
@@ -254,7 +257,8 @@ function Home({
                   shrink: true
                 }}
                 inputProps={{
-                  step: 300
+                  step: 300,
+                  color: theme.palette.primary.link
                 }}
                 type="time"
                 id="time"
