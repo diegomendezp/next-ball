@@ -176,6 +176,7 @@ export default function ProfileMatchCard({
   endMatch = false,
   handleDelete = null,
   handleFinish = null,
+  handleValorate=null,
   dispatch = null,
   record = false,
   user
@@ -237,6 +238,14 @@ export default function ProfileMatchCard({
     const loser = players.find(player => player.id !== winner.id);
     handleClose2();
     handleFinish(matchId, winner, loser, dispatch);
+  };
+
+  const valorateUser = (e, statistics, user, dispatch, players) => {
+    e.preventDefault();
+    console.log(statistics)
+    const userId = players.find(player => player.id !== user.id);
+    handleClose3();
+    handleValorate(statistics, userId.id, dispatch);
   };
 
   const displayOptions = () => {
@@ -395,13 +404,12 @@ export default function ProfileMatchCard({
                     color="primary"
                     className={classes.cancelButton}
                     onClick={e =>
-                      finishMatch(
+                      valorateUser(
                         e,
-                        id,
-                        winner,
-                        players,
-                        handleFinish,
-                        dispatch
+                        {drive, backhand, volley, serve, resistance},
+                        user,
+                        dispatch,
+                        players
                       )
                     }
                   >

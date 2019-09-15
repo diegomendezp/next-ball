@@ -7,6 +7,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { withThemeConsumer } from "../../theme";
 import { connect } from "react-redux";
 import ProfileMatchCard from "../ProfileMatchCard";
+import AuthService from "../../services/AuthService";
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -16,6 +17,13 @@ const mapStateToProps = (state, ownProps) => {
       }
     : "";
 };
+
+const handleValorate = (statistics, userId, dispatch) => {
+  AuthService.valorate(statistics, userId)
+  .then(() => {
+    console.log("Success")
+  })
+}
 
 const displayMatches = (matches, user, dispatch) => {
   return matches.map((match, i) => {
@@ -30,11 +38,14 @@ const displayMatches = (matches, user, dispatch) => {
           record
           dispatch={dispatch}
           user={user}
+          handleValorate={handleValorate}
         ></ProfileMatchCard>
       );
     }
   });
 };
+
+
 
 function Record({ api, theme, user , dispatch}) {
   const { matches } = api ? api : null;

@@ -36,6 +36,11 @@ class AuthService {
     return instance.get("/users").then(response => response.data)
     .catch(AuthService.errorHandler)
   };
+
+  static valorate = (statistics, userId) => {
+    return instance.post(`/valorate/${userId}`, statistics).then(response => response.data)
+    .catch(AuthService.errorHandler)
+  };
 }
 
 export default AuthService;
