@@ -42,6 +42,11 @@ class MatchService {
     .catch(MatchService.errorHandler)
   } 
 
+  static finishMatch = (match, winner, loser) => {
+    return instance.post(`/endMatch/${match}`, {winner, loser}).then(response => response.data)
+    .catch(MatchService.errorHandler)
+  };
+
 }
 
 export default MatchService;
