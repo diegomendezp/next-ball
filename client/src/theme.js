@@ -17,7 +17,8 @@ class ThemeStore extends Component {
           main: "#1976d2",
           light: "rgb(71, 145, 219)",
           dark: "rgb(17, 82, 147)",
-          contrastText: "#fff"
+          contrastText: "#fff",
+          link: "#000"
         },
         secondary: {
           main: "rgb(220, 0, 78)",
@@ -72,7 +73,8 @@ class ThemeStore extends Component {
                 main: "#1976d2",
                 light: "rgb(71, 145, 219)",
                 dark: "rgb(17, 82, 147)",
-                contrastText: "#fff"
+                contrastText: "#fff",
+                link: "#000"
               },
               secondary: {
                 main: "rgb(220, 0, 78)",
@@ -123,7 +125,8 @@ class ThemeStore extends Component {
                 main: "#000",
                 light: "rgb(166, 212, 250)",
                 dark: "rgb(100, 141, 174)",
-                contrastText: "#fff"
+                contrastText: "#fff",
+                link: "#fff"
               },
               secondary: {
                 main: "#f48fb1",

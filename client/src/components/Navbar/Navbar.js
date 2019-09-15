@@ -72,9 +72,9 @@ const useStyles = makeStyles(theme => ({
       display: "none"
     }
   },
-  links: {
-    color: "white",
+  links: { 
     textDecoration: "none",
+    color: "white",
     "&:visited": {
       color: "white",
       textDecoration: "none"
@@ -121,7 +121,7 @@ function Navbar(props) {
       {props.user && (
         <React.Fragment>
           <MenuItem onClick={handleMenuClose}>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile" style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Profile</Link>
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -136,10 +136,10 @@ function Navbar(props) {
       {!props.user && (
         <React.Fragment>
           <MenuItem onClick={handleMenuClose}>
-            <Link to="/login">Login</Link>
+            <Link to="/login"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Login</Link>
           </MenuItem>
           <MenuItem onClick={handleMenuClose}>
-            <Link to="/signup">Register</Link>
+            <Link to="/signup"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Register</Link>
           </MenuItem>
         </React.Fragment>
       )}
@@ -180,17 +180,17 @@ function Navbar(props) {
         <React.Fragment>
           <MenuItem>
             <Button color="inherit" onClick={handleMobileMenuClose}>
-              <Link to="/">Matches</Link>
+              <Link to="/"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Matches</Link>
             </Button>
           </MenuItem>
           <MenuItem>
             <Button color="inherit" onClick={handleMobileMenuClose}>
-              <Link to="/users">Users</Link>
+              <Link to="/users"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Users</Link>
             </Button>
           </MenuItem>
           <MenuItem>
             <Button color="inherit" onClick={handleMobileMenuClose}>
-              <Link to="/ranking">Ranking</Link>
+              <Link to="/ranking"  style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Ranking</Link>
             </Button>
           </MenuItem>
         </React.Fragment>
@@ -218,17 +218,17 @@ function Navbar(props) {
             {props.user && (
               <React.Fragment>
                 <Button color="inherit">
-                  <Link to="/" className={classes.links}>
+                  <Link to="/"  style={{color:props.theme.palette.primary.contrastText, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.contrastText}}}>
                     Matches
                   </Link>
                 </Button>
                 <Button color="inherit">
-                  <Link to="/users" className={classes.links}>
+                  <Link to="/users"  style={{color:props.theme.palette.primary.contrastText, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.contrastText}}}>
                     Users
                   </Link>
                 </Button>
                 <Button color="inherit">
-                  <Link to="/ranking" className={classes.links}>
+                  <Link to="/ranking"  style={{color:props.theme.palette.primary.contrastText, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.contrastText}}}>
                     Ranking
                   </Link>
                 </Button>
