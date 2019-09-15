@@ -10,6 +10,8 @@ router.get('/my-matches', secure.isAuthenticated, match.gethMyMatches);
 router.get('/record/:id', secure.isAuthenticated, match.getRecord);
 router.get('/:id', secure.isAuthenticated, match.getMatch);
 router.post('/new', secure.isAuthenticated, match.newMatch);
+router.post('/loserEndMatch', secure.isAuthenticated, match.setLoser);
+router.post('/winnerEndMatch', secure.isAuthenticated, match.setWinner);
 router.post('/addPlayer/:playerId/:matchId', secure.isAuthenticated, match.addPlayerToMatch);
 router.post('/endMatch/:matchId', secure.isAuthenticated, match.endMatch);
 router.delete('/:id', secure.isAuthenticated, match.deleteMatch);

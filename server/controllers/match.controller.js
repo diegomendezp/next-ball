@@ -99,12 +99,14 @@ module.exports.newMatch = (req, res, next) => {
 
 module.exports.addPlayerToMatch = (req, res, next) => {
   Match.findByIdAndUpdate(
-    req.params.matchId, {
+    req.params.matchId,
+    {
       $push: {
         players: req.params.playerId,
       },
       closed: true,
-    }, {
+    },
+    {
       new: true,
     },
   )
@@ -141,13 +143,16 @@ module.exports.deleteMatch = (req, res) => {
 };
 
 module.exports.endMatch = (req, res) => {
+  const { winner, loser } = req.body;
   Match.findByIdAndUpdate(
-    req.params.matchId, {
-      winner: req.body.winner,
-      loser: req.body.loser,
+    req.params.matchId,
+    {
+      winner,
+      loser,
       ended: true,
       finish: Date.now(),
-    }, {
+    },
+    {
       new: true,
     },
   )
@@ -175,6 +180,51 @@ module.exports.getRecord = (req, res, next) => {
     .populate('_author')
     .then((matches) => {
       res.status(200).json(matches);
+    })
+    .catch((e) => {
+      res.status(500).json({
+        status: 'error',
+        error: e.message,
+      });
+    });
+};
+
+module.exports.setWinner = (req, res) => {
+  User.findById({
+    _id: req.body.winner,
+  })
+    .then((user) => {
+      user.wonMatches++;
+      user.points += 10;
+      // if (user.points > 100) {
+      //   user.points = 0;
+      //   user.league += 1;
+      user.save().then(() => res.status(200).json(user));
+    })
+    .catch((e) => {
+      res.status(500).json({
+        status: 'error',
+        error: e.message,
+      });
+    });
+};
+
+module.exports.setLoser = (req, res) => {
+  User.findById({
+    _id: req.body.loser,
+  })
+    .then((user) => {
+      user.lostMatches++;
+      if (user.points > 0) {
+        user.points -= 10;
+      }
+      // if (user.league > 0) {
+      //   if (user.points <= 0) {
+      //     user.points = 50;
+      //     user.league -= 1;
+      //   }
+      // }
+      user.save().then(() => res.status(200).json(user));
     })
     .catch((e) => {
       res.status(500).json({
