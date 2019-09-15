@@ -37,8 +37,12 @@ const handleFinish = (matchId, winner, loser, dispatch) => {
   Promise.all([MatchService.setWinner(winner.id), MatchService.setLoser(loser.id), MatchService.finishMatch(matchId, winner, loser)])
     .then((values) => {
       AuthService.currentUser().then(user => {
-        wsConn.sendMatch()
-        dispatch(login(user));  
+        if(user.error) {
+
+        } else {
+          wsConn.sendMatch()
+          dispatch(login(user)); 
+        }
       })
     })
 }

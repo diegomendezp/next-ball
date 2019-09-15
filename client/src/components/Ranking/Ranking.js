@@ -31,7 +31,13 @@ class Ranking extends Component {
     //   });
     // } else {
       AuthService.getUsers()
-      .then(users => this.setState({...this.state, users}))
+      .then(users => {
+        if(users.error) {
+
+        } else {
+          this.setState({...this.state, users})
+        } 
+      })
       .catch(e => "Users api error")
     // }
   }
