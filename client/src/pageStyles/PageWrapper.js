@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import photo from "../components/Home/bg.jpg";
 const PageWrapper = styled.section`
   .page-container {
     /* margin: 0 auto;
@@ -11,6 +11,50 @@ const PageWrapper = styled.section`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+
+  .bg-container {
+    width: 100%;
+    height: 90vh;
+    min-width: 100%;
+    height: 85vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    h2 {
+      z-index: 1;
+      font-size: 56px;
+    font-weight: 700;
+    line-height: 1.13;
+    letter-spacing: -.3px;
+    margin-bottom: 24px;
+    }
+    .search-form {
+      background-color: rgb(255, 255, 255);
+      border-radius: 4px;
+      color: rgb(47, 51, 51);
+      padding: 24px;
+      z-index:1 ;
+      font-family: "Roboto", "Helvetica", "Arial";
+    }
+
+    &::before {
+      background-image: url(${photo});
+      background-size: cover;
+      background-position: center;
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.7;
+      
+    }
   }
 
   .panel {
