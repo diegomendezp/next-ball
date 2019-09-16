@@ -33,7 +33,7 @@ const PageWrapper = styled.section`
       margin-bottom: 24px;
     }
     .search-form {
-    background-color: ${props => props.theme.palette.type === "light" ? "white" : "#424242" };
+      background-color: ${props => props.theme && props.theme.palette ? props.theme.palette.type === "light" ? "white" : "#424242":"white" };
       border-radius: 4px;
       color: rgb(47, 51, 51);
       padding: 24px;
