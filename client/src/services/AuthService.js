@@ -39,6 +39,16 @@ class AuthService {
     return instance.post(`/valorate/${userId}`, statistics).then(response => response.data)
     .catch(AuthService.errorHandler)
   };
+
+  static updateProfile = (user) => {
+    const data = new FormData();
+    Object.keys(user).forEach(prop => {
+      if (prop === 'password' && user.password === '') return;
+      data.append(prop, user[prop])
+    });
+    return instance.put('/edit-profile', data)
+    .then(response => response.data)
+  }
 }
 
 export default AuthService;
