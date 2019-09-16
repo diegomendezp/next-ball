@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const passport = require('passport');
 const User = require('../models/user.model');
 
+
 module.exports.register = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -61,4 +62,15 @@ module.exports.valorate = (req, res, next) => {
 
 module.exports.getProfile = (req, res, next) => {
   res.json(req.user);
+};
+
+module.exports.editProfile = (req, res, next) => {
+  delete req.body.email;
+  const user = req.user;
+  Object.keys(req.body).forEach(prop => user[prop] = req.body[prop]);
+  if (req.file) user.image = req.file.secure_url;
+
+  user.save()
+    .then(user => res.status(201).json(user))
+    .catch(next);
 };
