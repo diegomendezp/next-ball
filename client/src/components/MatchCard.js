@@ -132,7 +132,7 @@ export default function MediaControlCard({ _author, date, hour, location, id, us
           <Typography variant="subtitle1" color="textSecondary">
             Date: {dateFormat(new Date(date))} - Hour: {hour}
           </Typography>
-          <Button className={classes.button} onClick={e => challenge(user, _author, id)}>Challenge</Button>
+          {user &&<Button className={classes.button} onClick={e => challenge(user, _author, id)}>Challenge</Button>}
         </CardContent>
       </div>
       <ReactMapGL

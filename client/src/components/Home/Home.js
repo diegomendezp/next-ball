@@ -78,6 +78,8 @@ const displayMatches = (matches, user) => {
   return matches.map((match, i) => {
     if (user && user.id !== match._author.id && !match.closed) {
       return <CardWrapper key={i} {...match} user={user}></CardWrapper>;
+    } else if(!user && !match.closed) {
+      return <CardWrapper key={i} {...match}></CardWrapper>;
     }
   });
 };
@@ -271,7 +273,7 @@ function Home({
               {matchesAux && displayMatches(matchesAux, user)}
             </div>
           </StyledContainer>
-          <NewMatch />
+          {user && <NewMatch />}
         </PageWrapper>
       </Typography>
       {notifications &&

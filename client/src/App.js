@@ -37,7 +37,7 @@ function App(props) {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          <PrivateRoute exact path="/" component={Home}></PrivateRoute>
+          <Route exact path="/" component={Home}></Route>
           <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
           <PrivateRoute
             exact
