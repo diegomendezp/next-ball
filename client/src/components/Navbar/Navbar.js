@@ -123,6 +123,9 @@ function Navbar(props) {
           <MenuItem onClick={handleMenuClose}>
             <Link to="/profile" style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Profile</Link>
           </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link to="/edit-profile" style={{color:props.theme.palette.primary.link, textDecoration:"none","&:visited" :{color:props.theme.palette.primary.link}}}>Edit Profile</Link>
+          </MenuItem>
           <MenuItem
             onClick={() => {
               _handleLogout(props);

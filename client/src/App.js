@@ -13,6 +13,7 @@ import Users from "./components/Users/Users";
 import Ranking from "./components/Ranking/Ranking";
 import Profile from "./components/Profile/Profile";
 import { SnackbarProvider } from "notistack";
+import EditProfile from "./components/Profile/EditProfile";
 
 
 
@@ -47,6 +48,11 @@ function App(props) {
             exact
             path="/profile"
             component={Profile}
+          ></PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/edit-profile"
+            component={EditProfile}
           ></PrivateRoute>
         </Switch>
       </SnackbarProvider>
