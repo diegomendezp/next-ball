@@ -12,7 +12,7 @@ const PageWrapper = styled.section`
     justify-content: space-between;
     flex-wrap: wrap;
   }
-
+  
   .bg-container {
     width: 100%;
     height: 90vh;
