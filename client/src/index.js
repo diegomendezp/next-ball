@@ -11,12 +11,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 import reduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { login, logout} from "./actions";
+import { login, logout, getMatches} from "./actions";
 import AuthService from "./services/AuthService";
 import { loadState, saveState } from './localStorage'
 import { ThemeProvider } from '@material-ui/styles';
 import { ThemeStore } from './theme';
 import { WebsocketConnection } from "./websockets";
+import MatchService from "./services/MatchService";
 
 const persistedState = loadState();
 
@@ -25,6 +26,11 @@ const store = createStore(
   persistedState,
   composeWithDevTools(applyMiddleware(reduxThunk))
 );
+
+MatchService.getMatches()
+.then(matches => {
+  store.dispatch(getMatches(matches))
+})
 
 AuthService.currentUser().then(user => {
   if(user.error){

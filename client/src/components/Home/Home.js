@@ -160,9 +160,9 @@ function Home({
   
 
   const classes = useStyles();
-  const { matches } = api ? api : null;
+  const matches  = api  ? api.matches : null;
   const [username, setUsername] = React.useState("");
-  const [matchesAux, setMatchesAux] = React.useState([...matches]);
+  const [matchesAux, setMatchesAux] = matches ? React.useState([...matches]) : React.useState([]);
   const [date, setDate] = React.useState("")
   const [hour, setHour] = React.useState("");
 

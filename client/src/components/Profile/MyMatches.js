@@ -49,7 +49,7 @@ const handleFinish = (matchId, winner, loser, dispatch) => {
 
 
 function MyMatches({ api, theme, user , dispatch}) {
-  const { matches } = api ? api : null;
+  const matches  = api  ? api.matches : null;
   
   return (
     <ThemeProvider theme={theme}>
