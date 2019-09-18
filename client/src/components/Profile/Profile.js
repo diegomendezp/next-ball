@@ -19,6 +19,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 function Profile(props) {
+  const { matches } = props.api ? props.api : null;
   return (
     <ThemeProvider theme={props.theme}>
       <Typography
@@ -32,9 +33,10 @@ function Profile(props) {
           <Container className="page-container">
             <div className="profile-container">
               <ProfileCard  {...props.user} className="user-card"/>
-              <ProfileTabs className="user-tabs"/>
+              <ProfileTabs className="user-tabs" matches={matches}/>
             </div>
           </Container>
+          {matches && <div></div> }
         </PageWrapper>
       </Typography>
     </ThemeProvider>

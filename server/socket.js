@@ -9,7 +9,7 @@ const socketServer = (io) => {
       socket.emit(data.playerId, { otherPlayerId: data.playerId, matchId: data.matchId, type: data.type });
     });
     socket.on('new-match', () => {
-      socket.broadcast.emit('new-match');
+      socket.emit('new-match');
     });
 
     socket.on('notify', (data) => {

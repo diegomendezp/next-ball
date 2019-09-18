@@ -58,16 +58,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ProfileTabs() {
+function ProfileTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const { matches } = props
   function handleChange(event, newValue) {
     setValue(newValue);
   }
 
   return (
     <div className={classes.root}>
+      {matches && <div></div>}
       <AppBar position="static" color="default">
         <Tabs
           value={value}

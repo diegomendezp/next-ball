@@ -29,7 +29,7 @@ const displayMatches = (matches, user, dispatch) => {
 };
 
 const handleDelete = (id) => {
-  MatchService.deleteMatch(id).then(() => {
+  MatchService.deleteMatch(id).then(() => {   
     wsConn.sendMatch()
   })
 } 
