@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0,
     width: "80%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft:  0,
+      marginLeft: 0,
       width: "auto"
     }
   },
@@ -74,21 +74,31 @@ const StyledContainer = withStyles(theme => ({
   }
 }))(Container);
 
-const displayMatches = (matches, user) => {
-  return matches.map((match, i) => {
+const checkValues = (date, hour, username) => {
+  return username !== "" || date !== "" || hour !== ""
+}
+
+const displayMatches = (matches, user, searchedMatches, date, hour, username) => {
+  if(searchedMatches.length === 0 || (searchedMatches.length !== matches.length && !checkValues(date, hour, username))){
+    return matches.map((match, i) => {
+      if (user && user.id !== match._author.id && !match.closed) {
+        return <CardWrapper key={i} {...match} user={user}></CardWrapper>;
+      } else if (!user && !match.closed) {
+        return <CardWrapper key={i} {...match}></CardWrapper>;
+      }
+    });
+  }
+
+  return searchedMatches.map((match, i) => {
     if (user && user.id !== match._author.id && !match.closed) {
       return <CardWrapper key={i} {...match} user={user}></CardWrapper>;
-    } else if(!user && !match.closed) {
+    } else if (!user && !match.closed) {
       return <CardWrapper key={i} {...match}></CardWrapper>;
     }
   });
+  
 };
 
-const refreshState = dispatch => {
-  setTimeout(() => {
-    dispatch(getNotification(null));
-  }, 3000);
-};
 const getNotification = (
   notifications,
   enqueueSnackbar,
@@ -106,8 +116,8 @@ const getNotification = (
             <Button
               onClick={() => {
                 MatchService.addPlayer(otherPlayerId, matchId).then(() => {
-                  wsConn.sendChallange(user, otherPlayerId, matchId, "success");
                   wsConn.sendMatch();
+                  wsConn.sendChallange(user, otherPlayerId, matchId, "success");
                   closeSnackbar(key);
                 });
               }}
@@ -146,7 +156,6 @@ const getNotification = (
   }
 };
 
-
 function Home({
   api,
   user,
@@ -156,37 +165,59 @@ function Home({
   closeSnackbar,
   dispatch
 }) {
-
-  
-
   const classes = useStyles();
-  const matches  = api  ? api.matches : null;
+  const matches = api ? api.matches : null;
   const [username, setUsername] = React.useState("");
-  const [matchesAux, setMatchesAux] = matches ? React.useState([...matches]) : React.useState([]);
-  const [date, setDate] = React.useState("")
+  const [matchesAux, setMatchesAux] = matches
+    ? React.useState([...matches])
+    : React.useState([]);
+  const [date, setDate] = React.useState("");
   const [hour, setHour] = React.useState("");
 
+  const handleInputChange = value => {
+    let searchMatches = matches.filter(match =>
+      match._author.username.toLowerCase().includes(value.toLowerCase())
+    );
+    searchMatches = date
+      ? searchMatches.filter(
+          match => new Date(match.date).getTime() === new Date(date).getTime()
+        )
+      : searchMatches;
+    searchMatches = hour
+      ? searchMatches.filter(match => hour === match.hour)
+      : searchMatches;
+    setMatchesAux([...searchMatches]);
+  };
 
-  const handleInputChange = (value) => {
-    let searchMatches = matches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase()))
-    searchMatches = date ? searchMatches.filter((match) => new Date(match.date).getTime() === new Date(date).getTime()) : searchMatches;
-    searchMatches = hour ? searchMatches.filter((match) => hour === match.hour) : searchMatches;
-    setMatchesAux([...searchMatches])
-  }
+  const handleDate = value => {
+    let searchMatches = matches.filter(
+      match => new Date(match.date).getTime() === new Date(value).getTime()
+    );
+    searchMatches = username
+      ? searchMatches.filter(match =>
+          match._author.username.toLowerCase().includes(value.toLowerCase())
+        )
+      : searchMatches;
+    searchMatches = hour
+      ? searchMatches.filter(match => hour === match.hour)
+      : searchMatches;
+    setMatchesAux([...searchMatches]);
+  };
 
-  const handleDate = (value) => {
-    let searchMatches = matches.filter((match) => new Date(match.date).getTime() === new Date(value).getTime());
-    searchMatches = username ? searchMatches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase())) : searchMatches
-    searchMatches = hour ? searchMatches.filter((match) => hour === match.hour) : searchMatches;
-    setMatchesAux([...searchMatches])
-  }
-
-  const handleHour = (value) => {
-    let searchMatches =  matches.filter((match) => value === match.hour);
-    searchMatches = username ? searchMatches.filter((match) => match._author.username.toLowerCase().includes(value.toLowerCase())) : searchMatches
-    searchMatches =  date ? searchMatches.filter((match) => new Date(match.date).getTime() === new Date(date).getTime()) : searchMatches;
-    setMatchesAux([...searchMatches])
-  }
+  const handleHour = value => {
+    let searchMatches = matches.filter(match => value === match.hour);
+    searchMatches = username
+      ? searchMatches.filter(match =>
+          match._author.username.toLowerCase().includes(value.toLowerCase())
+        )
+      : searchMatches;
+    searchMatches = date
+      ? searchMatches.filter(
+          match => new Date(match.date).getTime() === new Date(date).getTime()
+        )
+      : searchMatches;
+    setMatchesAux([...searchMatches]);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -213,9 +244,9 @@ function Home({
                   <SearchIcon />
                 </div>
                 <InputBase
-                  onChange={(e) => {
-                    setUsername(e.target.value)
-                    handleInputChange(e.target.value)
+                  onChange={e => {
+                    setUsername(e.target.value);
+                    handleInputChange(e.target.value);
                   }}
                   placeholder="Username…"
                   classes={{
@@ -237,40 +268,40 @@ function Home({
                   required
                   autoFocus
                   onChange={e => {
-                    setDate(e.target.value)
-                    handleDate(e.target.value)
+                    setDate(e.target.value);
+                    handleDate(e.target.value);
                   }}
                   margin="normal"
                   type="date"
                   id="date"
                 />
                 <TextField
-                label="Time:"
-                className={classes.textField}
-                value={hour}
-                required
-                autoFocus
-                onChange={e => {
-                  setHour(e.target.value)
-                  handleHour(e.target.value)
-                }}
-                margin="normal"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                inputProps={{
-                  step: 300,
-                  color: theme.palette.primary.link
-                }}
-                type="time"
-                id="time"
-              />
+                  label="Time:"
+                  className={classes.textField}
+                  value={hour}
+                  required
+                  autoFocus
+                  onChange={e => {
+                    setHour(e.target.value);
+                    handleHour(e.target.value);
+                  }}
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  inputProps={{
+                    step: 300,
+                    color: theme.palette.primary.link
+                  }}
+                  type="time"
+                  id="time"
+                />
               </div>
-            </div>   
+            </div>
           </div>
           <StyledContainer className="page-container">
             <div className="matches-container">
-              {matchesAux && displayMatches(matchesAux, user)}
+              {matches && displayMatches(matches, user, matchesAux, date, hour, username)}
             </div>
           </StyledContainer>
           {user && <NewMatch />}

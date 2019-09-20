@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import { connect } from "react-redux";
+import logo from "./tennis-ball.svg"
 
 const mapStateToProps = (state, ownProps) => {
   return state && state.api
@@ -79,6 +80,10 @@ const useStyles = makeStyles(theme => ({
       color: "white",
       textDecoration: "none"
     }
+  },
+  logo: {
+    width: "46px",
+    height: "46px"
   }
 }));
 
@@ -213,9 +218,12 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography className={classes.title} variant="h6" noWrap>
+          {/* <Typography className={classes.title} variant="h6" noWrap>
             Next ball
-          </Typography>
+          </Typography> */}
+          <Link to="/">
+            <img src={logo} alt="tennis-logo" noWrap className={classes.logo} />
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {props.user && (

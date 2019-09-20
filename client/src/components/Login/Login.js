@@ -146,10 +146,6 @@ class _LoginForm extends React.Component {
                     }
                   />
                   {error && <p className="error-message">{errorMessage}</p>}
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
                   <Button
                     fullWidth
                     variant="contained"

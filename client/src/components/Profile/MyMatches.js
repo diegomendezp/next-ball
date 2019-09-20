@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const displayMatches = (matches, user, dispatch) => {
   return matches.map((match, i) => {
-    if (new Date(match.date).getTime() < new Date().getTime() && match.players.find(player => player.id === user.id) && !match.ended) {
+    if (match.players.find(player => player.id === user.id) && !match.ended) {
       return <ProfileMatchCard {...match} endMatch handleDelete={handleDelete} handleFinish={handleFinish} dispatch={dispatch} user={user}></ProfileMatchCard>;
     }
   });
@@ -30,7 +30,7 @@ const displayMatches = (matches, user, dispatch) => {
 
 const handleDelete = (id) => {
   MatchService.deleteMatch(id).then(() => {   
-    wsConn.sendMatch()
+    wsConn.eventMatch()
   })
 } 
 const handleFinish = (matchId, winner, loser, dispatch) => {
@@ -40,7 +40,7 @@ const handleFinish = (matchId, winner, loser, dispatch) => {
         if(user.error) {
 
         } else {
-          wsConn.sendMatch()
+          wsConn.eventMatch()
           dispatch(login(user)); 
         }
       })

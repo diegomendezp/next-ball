@@ -11,7 +11,11 @@ export class WebsocketConnection {
         this.store.dispatch(getMatches(matches));
       });
     });
-
+    this.socket.on(`delete-match`, () => {
+      MatchService.getMatches().then(matches => {
+        this.store.dispatch(getMatches(matches));
+      });
+    });
     
     
   }
@@ -24,6 +28,10 @@ export class WebsocketConnection {
 
   sendMatch() {
     this.socket.emit("new-match");
+  }
+
+  eventMatch() {
+    this.socket.emit("delete-match");
   }
 
   sendChallange( player, otherPlayerId, matchId, type) {
