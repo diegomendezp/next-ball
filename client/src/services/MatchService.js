@@ -61,16 +61,16 @@ class MatchService {
       .catch(MatchService.errorHandler);
   };
 
-  static setWinner(id) {
+  static setWinner(id, loser) {
     return instance
-      .post(`/winnerEndMatch`, { winner: id })
+      .post(`/winnerEndMatch`, { winner: id, loser })
       .then(response => response.data)
       .catch(MatchService.errorHandler);
   }
 
-  static setLoser(id) {
+  static setLoser(id, winner) {
     return instance
-      .post(`/loserEndMatch`, { loser: id })
+      .post(`/loserEndMatch`, { loser: id, winner })
       .then(response => response.data)
       .catch(MatchService.errorHandler);
   }

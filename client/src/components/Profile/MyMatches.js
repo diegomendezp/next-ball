@@ -34,7 +34,7 @@ const handleDelete = (id) => {
   })
 } 
 const handleFinish = (matchId, winner, loser, dispatch) => {
-  Promise.all([MatchService.setWinner(winner.id), MatchService.setLoser(loser.id), MatchService.finishMatch(matchId, winner, loser)])
+  Promise.all([MatchService.setWinner(winner.id, loser), MatchService.setLoser(loser.id, winner), MatchService.finishMatch(matchId, winner, loser)])
     .then((values) => {
       AuthService.currentUser().then(user => {
         if(user.error) {
