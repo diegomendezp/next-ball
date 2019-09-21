@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const Match = require('../models/match.model');
 const User = require('../models/user.model');
-// const transport = require('../mailing/transport');
-// const { winnerTemplate } = require('../mailing/templates');
-// const { loserTemplate } = require('../mailing/templates');
+const transport = require('../configs/nodemailer.config');
+const { winnerTemplate, loserTemplate } = require('../templates/template');
+
 // Match.find({ roomId: { $in: [req.params.id] } })
 
 module.exports.getMatches = (req, res, next) => {
@@ -190,8 +190,9 @@ module.exports.getRecord = (req, res, next) => {
 };
 
 module.exports.setWinner = (req, res) => {
+  const { winner, loser } = req.body;
   User.findById({
-    _id: req.body.winner,
+    _id: winner,
   })
     .then((user) => {
       user.wonMatches++;
@@ -199,7 +200,15 @@ module.exports.setWinner = (req, res) => {
       // if (user.points > 100) {
       //   user.points = 0;
       //   user.league += 1;
-      user.save().then(() => res.status(200).json(user));
+      user.save().then(() => {
+        transport
+          .sendMail({
+            to: user.email,
+            subject: 'Head2Head',
+            html: winnerTemplate(user.username, loser.username),
+          })
+          .then(() => res.status(200).json(user));
+      });
     })
     .catch((e) => {
       res.status(500).json({
@@ -210,8 +219,9 @@ module.exports.setWinner = (req, res) => {
 };
 
 module.exports.setLoser = (req, res) => {
+  const { winner, loser } = req.body;
   User.findById({
-    _id: req.body.loser,
+    _id: loser,
   })
     .then((user) => {
       user.lostMatches++;
@@ -224,8 +234,15 @@ module.exports.setLoser = (req, res) => {
       //     user.league -= 1;
       //   }
       // }
-
-      user.save().then(() => res.status(200).json(user));
+      user.save().then(() => {
+        transport
+          .sendMail({
+            to: user.email,
+            subject: 'Head2Head',
+            html: loserTemplate(winner.username, user.username),
+          })
+          .then(() => res.status(200).json(user));
+      });
     })
     .catch((e) => {
       res.status(500).json({
